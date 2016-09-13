@@ -2,17 +2,19 @@ CC=gcc
 CFLAGS=-c -Wall
 
 all: directories compile
-	
+
 directories:
 	mkdir -p build
 
 compile:
-	$(CC) $(CFLAGS) lib/TcpSocket.c -o build/TcpSocket.o
-	$(CC) $(CFLAGS) lib/Utils.c -o build/Utils.o
+	$(CC) $(CFLAGS) lib/tcpSocket.c -o build/tcpSocket.o
+	$(CC) $(CFLAGS) lib/serializer.c -o build/serializer.o
+	$(CC) $(CFLAGS) lib/util.c -o build/util.o
 
 examples:
-	$(CC) build/TcpSocket.o build/Utils.o example/tcpClient.c -o build/tcpClient
-	$(CC) lib/Utils.c example/test.c -o build/test
+	$(CC) build/tcpSocket.o build/util.o example/tcpClient.c -o build/tcpClient
+	$(CC) build/util.o example/test.c -o build/test
+	$(CC) build/util.o build/serializer.o  example/serializer.c -o build/serializer
 
 clean:
 	rm -r build/

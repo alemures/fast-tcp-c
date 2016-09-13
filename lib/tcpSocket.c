@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <time.h>
-#include "TcpSocket.h"
+#include "tcpSocket.h"
 
 struct TcpSocket *tcpSocketCreate(char *host, int port) {
     struct TcpSocket *sock = (struct TcpSocket *) malloc(sizeof(struct TcpSocket));

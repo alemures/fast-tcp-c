@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../lib/TcpSocket.h"
-#include "../lib/Utils.h"
+#include "../lib/tcpSocket.h"
+#include "../lib/util.h"
 
 #define BUFFER_SIZE 32
 char buffer[BUFFER_SIZE];
@@ -13,10 +13,10 @@ void sendString(struct TcpSocket *socket, char *string) {
 
     ssize_t bytesSent = tcpSocketSend(socket, string, strlen(string));
     if (bytesSent == -1) {
-        logError("Could not receive data");
+        utilLogError("Could not receive data");
         exit(-1);
     } else if (bytesSent == 0) {
-        logWarning("No messages available or socket disconnected");
+        utilLogWarning("No messages available or socket disconnected");
         exit(-1);
     }
 }
@@ -24,10 +24,10 @@ void sendString(struct TcpSocket *socket, char *string) {
 void receiveString(struct TcpSocket *socket) {
     ssize_t bytesRead = tcpSocketReceive(socket, buffer, BUFFER_SIZE);
     if (bytesRead == -1) {
-        logError("Could not receive data");
+        utilLogError("Could not receive data");
         exit(-1);
     } else if (bytesRead == 0) {
-        logWarning("No messages available or socket disconnected");
+        utilLogWarning("No messages available or socket disconnected");
         exit(0);
     }
 
@@ -38,13 +38,13 @@ void receiveString(struct TcpSocket *socket) {
 int main(int argc, char *argv[]) {
     struct TcpSocket *socket = tcpSocketCreate("127.0.0.1", 5000);
     if (socket == NULL) {
-        logError("Error creating socket\n");
+        utilLogError("Error creating socket\n");
         exit(-1);
     }
 
     int res = tcpSocketConnect(socket);
     if (res == -1) {
-        logError("Could not connect");
+        utilLogError("Could not connect");
         exit(-1);
     }
 

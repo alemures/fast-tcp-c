@@ -1,12 +1,18 @@
 #include <stdio.h>
 #include <string.h>
-#include "../lib/Serializer.h"
-#include "../lib/Utils.h"
+#include "../lib/util.h"
 
 int main(int argc, char *argv[]) {
-    char *buffer = serialize("event", 5, "data", 4, 1, 1, 1);
+    utilLogDebug("Hell yeah!");
+    utilLogInfo("Hell yeah!");
+    utilLogWarning("Hell yeah!");
+    utilLogError("Hell yeah!");
 
-    printByteArray(buffer, 10);
+    char array[] = "aaaa";
 
+    utilWriteInt(1, array);
+    utilPrintBytes(array, 5);
+
+    printf("%d\n", utilReadInt(array));
     return 0;
 }
