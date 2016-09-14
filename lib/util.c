@@ -44,15 +44,18 @@ int utilReadInt(char *array) {
 }
 
 void utilPrintBytes(char *array, int arrayLength) {
-    char *string = (char *) malloc(arrayLength * 3);
+    arrayLength = arrayLength < 170 ? arrayLength : 170;
+    char string[arrayLength * 3];
     int i;
 
     for (i = 0; i < arrayLength; i++) {
         string[i * 3] = hexValues[(array[i] >> 4) & 0xF];
         string[i * 3 + 1] = hexValues[array[i] & 0xF];
-        string[i * 3 + 2] = i < arrayLength - 1 ? ' ' : '\0';
+        string[i * 3 + 2] = ' ';
     }
 
-    printf("%s\n", string);
-    free(string);
+    if (arrayLength > 0) {
+        string[(i - 1) * 3 + 2] = '\0';
+        printf("%s\n", string);
+    }
 }

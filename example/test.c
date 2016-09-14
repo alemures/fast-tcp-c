@@ -1,18 +1,20 @@
 #include <stdio.h>
 #include <string.h>
+#include <sys/time.h>
 #include "../lib/util.h"
 
 int main(int argc, char *argv[]) {
-    utilLogDebug("Hell yeah!");
-    utilLogInfo("Hell yeah!");
-    utilLogWarning("Hell yeah!");
-    utilLogError("Hell yeah!");
+    char array[] = "";
+    utilPrintBytes(array, strlen(array));
 
-    char array[] = "aaaa";
+//    struct timeval time;
+//    gettimeofday(&time, NULL);
+//    long start = time.tv_usec;
+//    int i;
+//    for (i = 0; i < 1; i++) {
+//    }
+//    gettimeofday(&time, NULL);
+//    printf("Finished in: %ld usec\n", time.tv_usec - start);
 
-    utilWriteInt(1, array);
-    utilPrintBytes(array, 5);
-
-    printf("%d\n", utilReadInt(array));
     return 0;
 }
