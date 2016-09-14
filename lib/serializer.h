@@ -20,19 +20,18 @@ extern const char MT_JOIN_ROOM;
 extern const char MT_LEAVE_ROOM;
 extern const char MT_LEAVE_ALL_ROOMS;
 
-char *serializerSerialize(char *event, short eventLength, char *data, short dataLength, char mt, char dt, int messageId);
-short serializerDeserializeEventLength(char *buffer);
-char *serializerDeserializeEvent(char *buffer);
-int serializerDeserializeDataLength(char *buffer);
-char *serializerDeserializeDataAsBuffer(char *buffer);
-char *serializerDeserializeDataAsString(char *buffer);
-long  serializerDeserializeDataAsInt48(char *buffer);
-double serializerDeserializeDataAsDouble(char *buffer);
-char serializerDeserializeMt(char *buffer);
-char serializerDeserializeDt(char *buffer);
-int serializerDeserializeMessageId(char *buffer);
-int serializerDeserializeMessageLength(char *buffer);
+unsigned char *serializerSerialize(char *event, short eventLength, unsigned char *data, short dataLength, char mt, char dt, int messageId);
+short serializerDeserializeEventLength(unsigned char *buffer);
+char *serializerDeserializeEvent(unsigned char *buffer);
+int serializerDeserializeDataLength(unsigned char *buffer);
+unsigned char *serializerDeserializeDataAsBuffer(unsigned char *buffer);
+char *serializerDeserializeDataAsString(unsigned char *buffer);
+long  serializerDeserializeDataAsInt48(unsigned char *buffer);
+char serializerDeserializeMt(unsigned char *buffer);
+char serializerDeserializeDt(unsigned char *buffer);
+int serializerDeserializeMessageId(unsigned char *buffer);
+int serializerDeserializeMessageLength(unsigned char *buffer);
 
-int serializerBufferLength(char *buffer);
+int serializerBufferLength(unsigned char *buffer);
 
 #endif

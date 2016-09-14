@@ -23,11 +23,11 @@ const char MT_JOIN_ROOM = 8;
 const char MT_LEAVE_ROOM = 9;
 const char MT_LEAVE_ALL_ROOMS = 10;
 
-char *serializerSerialize(char *event, short eventLength, char *data, short dataLength, char mt, char dt, int messageId) {
+unsigned char *serializerSerialize(char *event, short eventLength, unsigned char *data, short dataLength, char mt, char dt, int messageId) {
     int messageLength = 8 + 2 + eventLength + 4 + dataLength;
 
-    char *buffer = (char *) malloc(4 + messageLength);
-    char *bufferP = buffer;
+    unsigned char *buffer = (unsigned char *) malloc(sizeof(unsigned char) * (4 + messageLength));
+    unsigned char *bufferP = buffer;
 
     utilWriteInt(messageLength, bufferP);
     bufferP += 4;
@@ -54,11 +54,11 @@ char *serializerSerialize(char *event, short eventLength, char *data, short data
     return buffer;
 }
 
-short serializerDeserializeEventLength(char *buffer) {
+short serializerDeserializeEventLength(unsigned char *buffer) {
     return utilReadShort(buffer + 12);
 }
 
-char *serializerDeserializeEvent(char *buffer) {
+char *serializerDeserializeEvent(unsigned char *buffer) {
     short eventLength = serializerDeserializeEventLength(buffer);
     char *event = (char *) malloc(sizeof(char) * eventLength + 1);
     memcpy(event, buffer + 14, eventLength);
@@ -66,60 +66,50 @@ char *serializerDeserializeEvent(char *buffer) {
     return event;
 }
 
-int serializerDeserializeDataLength(char *buffer) {
+int serializerDeserializeDataLength(unsigned char *buffer) {
     short eventLength = serializerDeserializeEventLength(buffer);
     return utilReadInt(buffer + 14 + eventLength);
 }
 
-char *serializerDeserializeDataAsBuffer(char *buffer) {
+unsigned char *serializerDeserializeDataAsBuffer(unsigned char *buffer) {
     short eventLength = serializerDeserializeEventLength(buffer);
     int dataLength = serializerDeserializeDataLength(buffer);
-    char *data = (char *) malloc(sizeof(char) * dataLength);
+    unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char) * dataLength);
     memcpy(data, buffer + 14 + eventLength + 4, dataLength);
     return data;
 }
 
-char *serializerDeserializeDataAsString(char *buffer) {
+char *serializerDeserializeDataAsString(unsigned char *buffer) {
     short eventLength = serializerDeserializeEventLength(buffer);
     int dataLength = serializerDeserializeDataLength(buffer);
-    char *data = (char *) malloc(sizeof(char) * dataLength + 1);
+    char *data = (char *) malloc(sizeof(char) * (dataLength + 1));
     memcpy(data, buffer + 14 + eventLength + 4, dataLength);
     data[dataLength] = '\0';
     return data;
 }
 
-long serializerDeserializeDataAsInt48(char *buffer) {
+long serializerDeserializeDataAsInt48(unsigned char *buffer) {
     short eventLength = serializerDeserializeEventLength(buffer);
     return utilReadInt48(buffer + 14 + eventLength + 4);
 }
 
-double serializerDeserializeDataAsDouble(char *buffer) {
-    short eventLength = serializerDeserializeEventLength(buffer);
-    int dataLength = serializerDeserializeDataLength(buffer);
-    char data[dataLength + 1];
-    memcpy(data, buffer + 14 + eventLength + 4, dataLength);
-    data[dataLength] = '\0';
-
-    return atof(data);
-}
-
-char serializerDeserializeMt(char *buffer) {
+char serializerDeserializeMt(unsigned char *buffer) {
     return buffer[7];
 }
 
-char serializerDeserializeDt(char *buffer) {
+char serializerDeserializeDt(unsigned char *buffer) {
     return buffer[6];
 }
 
-int serializerDeserializeMessageId(char *buffer) {
+int serializerDeserializeMessageId(unsigned char *buffer) {
     return utilReadInt(buffer + 8);
 }
 
-int serializerDeserializeMessageLength(char *buffer) {
+int serializerDeserializeMessageLength(unsigned char *buffer) {
     return utilReadInt(buffer);
 }
 
-int serializerBufferLength(char *buffer) {
+int serializerBufferLength(unsigned char *buffer) {
     return 4 + utilReadInt(buffer);
 }
 

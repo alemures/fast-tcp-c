@@ -5,25 +5,34 @@
 #include "../lib/util.h"
 
 int main(int argc, char *argv[]) {
-    char number[6];
+    unsigned char number[6];
     utilWriteInt48(50000000, number);
 
-    char *buffer = serializerSerialize("The event", 9, number, 6, MT_DATA, DT_INT, 1);
+    unsigned char *buffer = serializerSerialize("The event", 9, number, 6, MT_DATA, DT_INT, 1);
     utilPrintBytes(buffer, serializerBufferLength(buffer));
 
     printf("dt: %d\n", serializerDeserializeDt(buffer));
     printf("mt: %d\n", serializerDeserializeMt(buffer));
     printf("messageId: %d\n", serializerDeserializeMessageId(buffer));
-    printf("event: \"%s\" -> ", serializerDeserializeEvent(buffer));
-    utilPrintBytes(serializerDeserializeEvent(buffer), serializerDeserializeEventLength(buffer));
+
+    char *event = serializerDeserializeEvent(buffer);
+    printf("event: \"%s\" -> ", event);
+    utilPrintBytes(event, serializerDeserializeEventLength(buffer));
+    free(event);
 
     if (serializerDeserializeDt(buffer) == DT_STRING) {
-        printf("data: \"%s\" -> ", serializerDeserializeDataAsString(buffer));
+        char *data = serializerDeserializeDataAsString(buffer);
+        printf("data: \"%s\" -> ", data);
+        free(data);
     } else if (serializerDeserializeDt(buffer) == DT_INT) {
         printf("data: %ld -> ", serializerDeserializeDataAsInt48(buffer));
     }
 
-    utilPrintBytes(serializerDeserializeDataAsBuffer(buffer), serializerDeserializeDataLength(buffer));
+    char *data = serializerDeserializeDataAsBuffer(buffer);
+    utilPrintBytes(data, serializerDeserializeDataLength(buffer));
+    free(data);
+
+    free(buffer);
 
     return 0;
 }
