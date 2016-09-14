@@ -20,7 +20,19 @@ extern const char MT_JOIN_ROOM;
 extern const char MT_LEAVE_ROOM;
 extern const char MT_LEAVE_ALL_ROOMS;
 
-char *serializerSerialize(char *event, short eventLength, char *data, short dataLength, char mt, char dt, unsigned int messageId);
+char *serializerSerialize(char *event, short eventLength, char *data, short dataLength, char mt, char dt, int messageId);
+short serializerDeserializeEventLength(char *buffer);
+char *serializerDeserializeEvent(char *buffer);
+int serializerDeserializeDataLength(char *buffer);
+char *serializerDeserializeDataAsBuffer(char *buffer);
+char *serializerDeserializeDataAsString(char *buffer);
+long  serializerDeserializeDataAsInt48(char *buffer);
+double serializerDeserializeDataAsDouble(char *buffer);
+char serializerDeserializeMt(char *buffer);
+char serializerDeserializeDt(char *buffer);
+int serializerDeserializeMessageId(char *buffer);
+int serializerDeserializeMessageLength(char *buffer);
+
 int serializerBufferLength(char *buffer);
 
 #endif

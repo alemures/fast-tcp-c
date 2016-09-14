@@ -13,7 +13,7 @@ void utilLogInfo(char *message) {
 }
 
 void utilLogWarning(char *message) {
-   utilLog("[WARNING]", message);
+    utilLog("[WARNING]", message);
 }
 
 void utilLogError(char *message) {
@@ -24,23 +24,46 @@ void utilLog(char *label, char *message) {
     printf("%s %s\n", label, message);
 }
 
-void utilWriteInt(int value, char *array) {
-    array[0] = (char) value;
-    array[1] = (char) (value >> 8);
-    array[2] = (char) (value >> 16);
-    array[3] = (char) (value >> 24);
+void utilWriteShort(short value, unsigned char *array) {
+    array[0] = value;
+    array[1] = value >> 8;
 }
 
-void utilWriteShort(short value, char *array) {
-    array[0] = (char) value;
-    array[1] = (char) (value >> 8);
+void utilWriteInt(int value, unsigned char *array) {
+    array[0] = value;
+    array[1] = value >> 8;
+    array[2] = value >> 16;
+    array[3] = value >> 24;
 }
 
-int utilReadInt(char *array) {
-    return (array[0] & 0xFF) |
-           (array[1] & 0xFF) >> 8 |
-           (array[2] & 0xFF) >> 16 |
-           (array[3] & 0xFF) >> 24;
+void utilWriteInt48(long value, unsigned char *array) {
+    array[0] = value;
+    array[1] = value >> 8;
+    array[2] = value >> 16;
+    array[3] = value >> 24;
+    array[4] = value >> 32;
+    array[5] = value >> 40;
+}
+
+short utilReadShort(unsigned char *array) {
+    return array[0] |
+            array[1] << 8;
+}
+
+int utilReadInt(unsigned char *array) {
+    return array[0] |
+            array[1] << 8 |
+            array[2] << 16 |
+            array[3] << 24;
+}
+
+long utilReadInt48(unsigned char *array) {
+    return array[0] |
+            array[1] << 8 |
+            array[2] << 16 |
+            array[3] << 24 |
+            (long)array[4] << 32 |
+            (long)array[5] << 40;
 }
 
 void utilPrintBytes(char *array, int arrayLength) {
