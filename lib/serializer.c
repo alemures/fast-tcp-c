@@ -93,6 +93,11 @@ long serializerDeserializeDataAsInt48(unsigned char *buffer) {
     return utilReadInt48(buffer + 14 + eventLength + 4);
 }
 
+double serializerDeserializeDataAsDouble(unsigned char *buffer) {
+    short eventLength = serializerDeserializeEventLength(buffer);
+    return utilReadDouble(buffer + 14 + eventLength + 4);
+}
+
 char serializerDeserializeMt(unsigned char *buffer) {
     return buffer[7];
 }

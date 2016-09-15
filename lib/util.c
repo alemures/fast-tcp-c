@@ -100,15 +100,15 @@ double utilReadDouble(unsigned char *array) {
 }
 
 unsigned long utilDoubleToLong(double value) {
-    unsigned long bits;
-    memcpy(&bits, &value, sizeof(unsigned long));
-    return bits;
+    unsigned long longValue;
+    memcpy(&longValue, &value, sizeof(unsigned long));
+    return longValue;
 }
 
 double utilLongToDouble(unsigned long value) {
-    double number;
-    memcpy(&number, &value, sizeof(unsigned long));
-    return number;
+    double doubleValue;
+    memcpy(&doubleValue, &value, sizeof(unsigned long));
+    return doubleValue;
 }
 
 void utilPrintBytes(char *array, int arrayLength) {
