@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "util.h"
 
 const char hexValues[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
@@ -45,6 +46,22 @@ void utilWriteInt48(long value, unsigned char *array) {
     array[5] = value >> 40;
 }
 
+void utilWriteLong(long value, unsigned char *array) {
+    array[0] = value;
+    array[1] = value >> 8;
+    array[2] = value >> 16;
+    array[3] = value >> 24;
+    array[4] = value >> 32;
+    array[5] = value >> 40;
+    array[6] = value >> 48;
+    array[7] = value >> 56;
+}
+
+void utilWriteDouble(double value, unsigned char *array) {
+    unsigned long longValue = utilDoubleToLong(value);
+    utilWriteLong(longValue, array);
+}
+
 short utilReadShort(unsigned char *array) {
     return array[0] |
             array[1] << 8;
@@ -61,9 +78,37 @@ long utilReadInt48(unsigned char *array) {
     return array[0] |
             array[1] << 8 |
             array[2] << 16 |
-            array[3] << 24 |
+            (long)array[3] << 24 |
             (long)array[4] << 32 |
             (long)array[5] << 40;
+}
+
+long utilReadLong(unsigned char *array) {
+    return array[0] |
+            array[1] << 8 |
+            array[2] << 16 |
+            (long)array[3] << 24 |
+            (long)array[4] << 32 |
+            (long)array[5] << 40 |
+            (long)array[6] << 48 |
+            (long)array[7] << 56;
+}
+
+double utilReadDouble(unsigned char *array) {
+    unsigned long longValue = utilReadLong(array);
+    return utilLongToDouble(longValue);
+}
+
+unsigned long utilDoubleToLong(double value) {
+    unsigned long bits;
+    memcpy(&bits, &value, sizeof(unsigned long));
+    return bits;
+}
+
+double utilLongToDouble(unsigned long value) {
+    double number;
+    memcpy(&number, &value, sizeof(unsigned long));
+    return number;
 }
 
 void utilPrintBytes(char *array, int arrayLength) {
