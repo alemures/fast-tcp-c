@@ -3,7 +3,7 @@
 #include <string.h>
 #include "util.h"
 
-const char hexValues[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+const char hexValues[] = "0123456789abcdef";
 
 void utilLogDebug(char *message) {
     utilLog("[DEBUG]", message);
@@ -37,7 +37,7 @@ void utilWriteInt(int value, unsigned char *array) {
     array[3] = value >> 24;
 }
 
-void utilWriteInt48(long value, unsigned char *array) {
+void utilWriteInt48(long long value, unsigned char *array) {
     array[0] = value;
     array[1] = value >> 8;
     array[2] = value >> 16;
@@ -46,7 +46,7 @@ void utilWriteInt48(long value, unsigned char *array) {
     array[5] = value >> 40;
 }
 
-void utilWriteLong(long value, unsigned char *array) {
+void utilWriteLong(long long value, unsigned char *array) {
     array[0] = value;
     array[1] = value >> 8;
     array[2] = value >> 16;
@@ -58,7 +58,7 @@ void utilWriteLong(long value, unsigned char *array) {
 }
 
 void utilWriteDouble(double value, unsigned char *array) {
-    unsigned long longValue = utilDoubleToLong(value);
+    long long longValue = utilDoubleToLong(value);
     utilWriteLong(longValue, array);
 }
 
@@ -74,40 +74,40 @@ int utilReadInt(unsigned char *array) {
             array[3] << 24;
 }
 
-long utilReadInt48(unsigned char *array) {
+long long utilReadInt48(unsigned char *array) {
     return array[0] |
             array[1] << 8 |
             array[2] << 16 |
-            (long)array[3] << 24 |
-            (long)array[4] << 32 |
-            (long)array[5] << 40;
+            (long long)array[3] << 24 |
+            (long long)array[4] << 32 |
+            (long long)array[5] << 40;
 }
 
-long utilReadLong(unsigned char *array) {
+long long utilReadLong(unsigned char *array) {
     return array[0] |
             array[1] << 8 |
             array[2] << 16 |
-            (long)array[3] << 24 |
-            (long)array[4] << 32 |
-            (long)array[5] << 40 |
-            (long)array[6] << 48 |
-            (long)array[7] << 56;
+            (long long)array[3] << 24 |
+            (long long)array[4] << 32 |
+            (long long)array[5] << 40 |
+            (long long)array[6] << 48 |
+            (long long)array[7] << 56;
 }
 
 double utilReadDouble(unsigned char *array) {
-    unsigned long longValue = utilReadLong(array);
+    long long longValue = utilReadLong(array);
     return utilLongToDouble(longValue);
 }
 
-unsigned long utilDoubleToLong(double value) {
-    unsigned long longValue;
-    memcpy(&longValue, &value, sizeof(unsigned long));
+long long utilDoubleToLong(double value) {
+    long long longValue;
+    memcpy(&longValue, &value, sizeof(long long));
     return longValue;
 }
 
-double utilLongToDouble(unsigned long value) {
+double utilLongToDouble(long long value) {
     double doubleValue;
-    memcpy(&doubleValue, &value, sizeof(unsigned long));
+    memcpy(&doubleValue, &value, sizeof(long long));
     return doubleValue;
 }
 

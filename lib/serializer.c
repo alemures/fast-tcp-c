@@ -88,7 +88,7 @@ char *serializerDeserializeDataAsString(unsigned char *buffer) {
     return data;
 }
 
-long serializerDeserializeDataAsInt48(unsigned char *buffer) {
+long long serializerDeserializeDataAsInt48(unsigned char *buffer) {
     short eventLength = serializerDeserializeEventLength(buffer);
     return utilReadInt48(buffer + 14 + eventLength + 4);
 }

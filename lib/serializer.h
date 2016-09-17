@@ -26,7 +26,7 @@ char *serializerDeserializeEvent(unsigned char *buffer);
 int serializerDeserializeDataLength(unsigned char *buffer);
 unsigned char *serializerDeserializeDataAsBuffer(unsigned char *buffer);
 char *serializerDeserializeDataAsString(unsigned char *buffer);
-long  serializerDeserializeDataAsInt48(unsigned char *buffer);
+long long serializerDeserializeDataAsInt48(unsigned char *buffer);
 double serializerDeserializeDataAsDouble(unsigned char *buffer);
 char serializerDeserializeMt(unsigned char *buffer);
 char serializerDeserializeDt(unsigned char *buffer);
