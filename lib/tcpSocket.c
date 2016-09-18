@@ -58,5 +58,4 @@ int tcpSocketClose(struct TcpSocket *socket) {
 
 void tcpSocketDestroy(struct TcpSocket *socket) {
     free(socket);
-    socket = NULL;
 }
