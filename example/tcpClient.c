@@ -54,7 +54,13 @@ int main(int argc, char *argv[]) {
     sendString(socket, "goodbye");
     receiveString(socket);
 
-    tcpSocketClose(socket);
+    res = tcpSocketClose(socket);
+    if (res == -1) {
+        utilLogError("Could not close");
+        exit(-1);
+    }
+
+    tcpSocketDestroy(socket);
 
     return 0;
 }

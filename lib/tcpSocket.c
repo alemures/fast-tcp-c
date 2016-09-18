@@ -8,30 +8,30 @@
 #include "tcpSocket.h"
 
 struct TcpSocket *tcpSocketCreate(char *host, int port) {
-    struct TcpSocket *sock = (struct TcpSocket *) malloc(sizeof(struct TcpSocket));
-    if (sock == 0) {
+    struct TcpSocket *socket = (struct TcpSocket *) malloc(sizeof(struct TcpSocket));
+    if (socket == 0) {
         return NULL;
     }
 
-    sock->fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock->fd == -1) {
-        return NULL;
-    }
+    socket->host = host;
+    socket->port = port;
 
-    sock->host = host;
-    sock->port = port;
-
-    return sock;
+    return socket;
 }
 
-int tcpSocketConnect(struct TcpSocket *socket) {
+int tcpSocketConnect(struct TcpSocket *sock) {
+    sock->fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sock->fd == -1) {
+        return -1;
+    }
+
     struct sockaddr_in serverAddress;
     memset(&serverAddress, 0, sizeof(struct sockaddr_in));
     serverAddress.sin_family = AF_INET;
-    serverAddress.sin_addr.s_addr = inet_addr(socket->host);
-    serverAddress.sin_port = htons(socket->port);
+    serverAddress.sin_addr.s_addr = inet_addr(sock->host);
+    serverAddress.sin_port = htons(sock->port);
 
-    int connectResult = connect(socket->fd, (struct sockaddr *) &serverAddress, sizeof(struct sockaddr_in));
+    int connectResult = connect(sock->fd, (struct sockaddr *) &serverAddress, sizeof(struct sockaddr_in));
     if (connectResult == -1) {
         return -1;
     }
@@ -54,4 +54,9 @@ int tcpSocketClose(struct TcpSocket *socket) {
     }
 
     return 0;
+}
+
+void tcpSocketDestroy(struct TcpSocket *socket) {
+    free(socket);
+    socket = NULL;
 }

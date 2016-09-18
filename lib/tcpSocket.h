@@ -12,5 +12,6 @@ int tcpSocketConnect(struct TcpSocket *socket);
 ssize_t tcpSocketReceive(struct TcpSocket *socket, void *buffer, size_t nBytes);
 ssize_t tcpSocketSend(struct TcpSocket *socket, const void *buffer, size_t nBytes);
 int tcpSocketClose(struct TcpSocket *socket);
+void tcpSocketDestroy(struct TcpSocket *socket);
 
 #endif
