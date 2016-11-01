@@ -10,6 +10,7 @@ compile:
 	$(CC) $(CFLAGS) lib/tcpSocket.c -o build/tcpSocket.o
 	$(CC) $(CFLAGS) lib/serializer.c -o build/serializer.o
 	$(CC) $(CFLAGS) lib/util.c -o build/util.o
+	$(CC) $(CFLAGS) lib/socket.c -o build/socket.o
 
 examples:
 	$(CC) build/tcpSocket.o build/util.o example/tcpClient.c -o build/tcpClient

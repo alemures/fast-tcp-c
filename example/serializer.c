@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
         printf("data: \"%s\" -> ", data);
         free(data);
     } else if (serializerDeserializeDt(buffer) == DT_INT) {
-        printf("data: %ld -> ", serializerDeserializeDataAsInt48(buffer));
+        printf("data: %lld -> ", serializerDeserializeDataAsInt48(buffer));
     } else if (serializerDeserializeDt(buffer) == DT_DOUBLE) {
         printf("data: %f -> ", serializerDeserializeDataAsDouble(buffer));
     }
