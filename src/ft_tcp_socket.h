@@ -1,5 +1,5 @@
-#ifndef TCP_SOCKET_H
-#define TCP_SOCKET_H 1
+#ifndef FT_TCP_SOCKET_H
+#define FT_TCP_SOCKET_H
 
 struct TcpSocket {
     int fd;
@@ -14,4 +14,4 @@ ssize_t tcpSocketSend(struct TcpSocket *socket, const void *buffer, size_t nByte
 int tcpSocketClose(struct TcpSocket *socket);
 void tcpSocketDestroy(struct TcpSocket *socket);
 
-#endif
+#endif // FT_TCP_SOCKET_H

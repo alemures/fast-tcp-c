@@ -1,5 +1,5 @@
-#ifndef UTILS_H
-#define UTILS_H 1
+#ifndef FT_UTILS_H
+#define FT_UTILS_H
 
 void utilLogDebug(char *message);
 void utilLogInfo(char *message);
@@ -24,4 +24,4 @@ double utilLongToDouble(long long value);
 
 void utilPrintBytes(char *array, int arrayLength);
 
-#endif
+#endif // FT_UTILS_H

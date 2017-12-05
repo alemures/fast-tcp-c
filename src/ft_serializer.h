@@ -1,5 +1,5 @@
-#ifndef SERIALIZER_H
-#define SERIALIZER_H 1
+#ifndef FT_SERIALIZER_H
+#define FT_SERIALIZER_H
 
 extern const char VERSION;
 
@@ -35,4 +35,4 @@ int serializerDeserializeMessageLength(unsigned char *buffer);
 
 int serializerBufferLength(unsigned char *buffer);
 
-#endif
+#endif // FT_SERIALIZER_H

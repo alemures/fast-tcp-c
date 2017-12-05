@@ -1,5 +1,5 @@
 #include <unistd.h>
-#include "socket.h"
+#include "ft_socket.h"
 
 struct Socket *socketCreate(char *host, int port) {
     return NULL;

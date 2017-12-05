@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "util.h"
+#include "ft_util.h"
 
 const char hexValues[] = "0123456789abcdef";
 

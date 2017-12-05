@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../lib/tcpSocket.h"
-#include "../lib/util.h"
+#include "../src/ft_tcp_socket.h"
+#include "../src/ft_util.h"
 
 #define BUFFER_SIZE 32
 char buffer[BUFFER_SIZE];

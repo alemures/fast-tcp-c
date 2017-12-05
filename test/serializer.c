@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../lib/serializer.h"
-#include "../lib/util.h"
+#include "../src/ft_serializer.h"
+#include "../src/ft_util.h"
 
 int main(int argc, char *argv[]) {
     unsigned char number[8];

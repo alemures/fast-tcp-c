@@ -1,7 +1,7 @@
-#ifndef SOCKET_H
-#define SOCKET_H 1
+#ifndef FT_SOCKET_H
+#define FT_SOCKET_H
 
-#include "tcpSocket.h"
+#include "ft_tcp_socket.h"
 
 struct Socket {
     struct TcpSocket *socket;
@@ -15,4 +15,4 @@ void socketConnect(struct Socket *socket);
 void socketClose(struct Socket *socket);
 void socketDestroy(struct Socket *socket);
 
-#endif
+#endif // FT_SOCKET_H

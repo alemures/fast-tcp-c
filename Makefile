@@ -1,21 +1,28 @@
 CC=gcc
-CFLAGS=-c -Wall -std=c89
+CFLAGS=-c -Wall -std=c11
+LDFLAGS=
 
-all: directories compile
+all: create_build_dir ft_tcp_socket.o ft_serializer.o ft_util.o ft_socket.o
 
-directories:
+create_build_dir:
 	mkdir -p build
 
-compile:
-	$(CC) $(CFLAGS) lib/tcpSocket.c -o build/tcpSocket.o
-	$(CC) $(CFLAGS) lib/serializer.c -o build/serializer.o
-	$(CC) $(CFLAGS) lib/util.c -o build/util.o
-	$(CC) $(CFLAGS) lib/socket.c -o build/socket.o
+ft_tcp_socket.o:
+	$(CC) $(CFLAGS) src/ft_tcp_socket.c -o build/ft_tcp_socket.o
 
-examples:
-	$(CC) build/tcpSocket.o build/util.o example/tcpClient.c -o build/tcpClient
-	$(CC) build/util.o example/test.c -o build/test
-	$(CC) build/util.o build/serializer.o  example/serializer.c -o build/serializer
+ft_serializer.o:
+	$(CC) $(CFLAGS) src/ft_serializer.c -o build/ft_serializer.o
+
+ft_util.o:
+	$(CC) $(CFLAGS) src/ft_util.c -o build/ft_util.o
+
+ft_socket.o:
+	$(CC) $(CFLAGS) src/ft_socket.c -o build/ft_socket.o
+
+test_build: build
+	${CC} ${LDFLAGS} build/ft_tcp_socket.o build/ft_util.o test/tcp_client.c -o build/tcp_client
+	$(CC) ${LDFLAGS} build/ft_util.o test/test.c -o build/test
+	$(CC) ${LDFLAGS} build/ft_util.o build/ft_serializer.o  test/serializer.c -o build/serializer
 
 clean:
-	rm -r build/
+	rm -r build
