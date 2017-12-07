@@ -15,4 +15,4 @@ void FT_SocketConnect(struct FT_Socket *socket);
 void FT_SocketClose(struct FT_Socket *socket);
 void FT_SocketDestroy(struct FT_Socket *socket);
 
-#endif // FT_SOCKET_H
+#endif /* FT_SOCKET_H */

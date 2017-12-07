@@ -14,4 +14,4 @@ ssize_t FT_TcpSocketSend(struct FT_TcpSocket *socket, const void *buffer, size_t
 int FT_TcpSocketClose(struct FT_TcpSocket *socket);
 void FT_TcpSocketDestroy(struct FT_TcpSocket *socket);
 
-#endif // FT_TCP_SOCKET_H
+#endif /* FT_TCP_SOCKET_H */

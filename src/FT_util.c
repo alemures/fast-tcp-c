@@ -3,7 +3,7 @@
 #include <string.h>
 #include "FT_util.h"
 
-const char hexValues[] = "0123456789abcdef";
+const char HEX_VALUES[] = "0123456789abcdef";
 
 void FT_UtilLogDebug(char *message) {
     FT_UtilLog("[DEBUG]", message);
@@ -117,8 +117,8 @@ void FT_UtilPrintBytes(char *array, int arrayLength) {
     int i;
 
     for (i = 0; i < arrayLength; i++) {
-        string[i * 3] = hexValues[(array[i] >> 4) & 0xF];
-        string[i * 3 + 1] = hexValues[array[i] & 0xF];
+        string[i * 3] = HEX_VALUES[(array[i] >> 4) & 0xF];
+        string[i * 3 + 1] = HEX_VALUES[array[i] & 0xF];
         string[i * 3 + 2] = ' ';
     }
 

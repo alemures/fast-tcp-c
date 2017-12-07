@@ -1,6 +1,8 @@
 #ifndef FT_UTILS_H
 #define FT_UTILS_H
 
+extern const char HEX_VALUES[];
+
 void FT_UtilLogDebug(char *message);
 void FT_UtilLogInfo(char *message);
 void FT_UtilLogWarning(char *message);
@@ -24,4 +26,4 @@ double FT_UtilLongToDouble(long long value);
 
 void FT_UtilPrintBytes(char *array, int arrayLength);
 
-#endif // FT_UTILS_H
+#endif /* FT_UTILS_H */

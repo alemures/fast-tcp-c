@@ -35,4 +35,4 @@ int FT_SerializerDeserializeMessageLength(unsigned char *buffer);
 
 int FT_SerializerBufferLength(unsigned char *buffer);
 
-#endif // FT_SERIALIZER_H
+#endif /* FT_SERIALIZER_H */
