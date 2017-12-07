@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <sys/time.h>
-#include "../src/FT_util.h"
+#include "../src/ft_util.h"
 
 int main(int argc, char *argv[]) {
     struct timeval time;

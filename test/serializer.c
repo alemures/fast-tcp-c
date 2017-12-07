@@ -1,37 +1,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../src/FT_serializer.h"
-#include "../src/FT_util.h"
+#include "../src/ft_serializer.h"
+#include "../src/ft_util.h"
 
 int main(int argc, char *argv[]) {
     unsigned char number[8];
-    FT_UtilWriteDouble(21.1, number);
+    ft_utilWriteDouble(21.1, number);
 
-    unsigned char *buffer = FT_SerializerSerialize("The event", 9, number, 8, MT_DATA, DT_DOUBLE, 1);
-    FT_UtilPrintBytes(buffer, FT_SerializerBufferLength(buffer));
+    unsigned char *buffer = ft_serializerSerialize("The event", 9, number, 8, MT_DATA, DT_DOUBLE, 1);
+    ft_utilPrintBytes(buffer, ft_serializerBufferLength(buffer));
 
-    printf("dt: %d\n", FT_SerializerDeserializeDt(buffer));
-    printf("mt: %d\n", FT_SerializerDeserializeMt(buffer));
-    printf("messageId: %d\n", FT_SerializerDeserializeMessageId(buffer));
+    printf("dt: %d\n", ft_serializerDeserializeDt(buffer));
+    printf("mt: %d\n", ft_serializerDeserializeMt(buffer));
+    printf("messageId: %d\n", ft_serializerDeserializeMessageId(buffer));
 
-    char *event = FT_SerializerDeserializeEvent(buffer);
+    char *event = ft_serializerDeserializeEvent(buffer);
     printf("event: \"%s\" -> ", event);
-    FT_UtilPrintBytes(event, FT_SerializerDeserializeEventLength(buffer));
+    ft_utilPrintBytes(event, ft_serializerDeserializeEventLength(buffer));
     free(event);
 
-    if (FT_SerializerDeserializeDt(buffer) == DT_STRING) {
-        char *data = FT_SerializerDeserializeDataAsString(buffer);
+    if (ft_serializerDeserializeDt(buffer) == DT_STRING) {
+        char *data = ft_serializerDeserializeDataAsString(buffer);
         printf("data: \"%s\" -> ", data);
         free(data);
-    } else if (FT_SerializerDeserializeDt(buffer) == DT_INT) {
-        printf("data: %lld -> ", FT_SerializerDeserializeDataAsInt48(buffer));
-    } else if (FT_SerializerDeserializeDt(buffer) == DT_DOUBLE) {
-        printf("data: %f -> ", FT_SerializerDeserializeDataAsDouble(buffer));
+    } else if (ft_serializerDeserializeDt(buffer) == DT_INT) {
+        printf("data: %lld -> ", ft_serializerDeserializeDataAsInt48(buffer));
+    } else if (ft_serializerDeserializeDt(buffer) == DT_DOUBLE) {
+        printf("data: %f -> ", ft_serializerDeserializeDataAsDouble(buffer));
     }
 
-    char *data = FT_SerializerDeserializeDataAsBuffer(buffer);
-    FT_UtilPrintBytes(data, FT_SerializerDeserializeDataLength(buffer));
+    char *data = ft_serializerDeserializeDataAsBuffer(buffer);
+    ft_utilPrintBytes(data, ft_serializerDeserializeDataLength(buffer));
     free(data);
 
     free(buffer);

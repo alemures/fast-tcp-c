@@ -5,10 +5,10 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <time.h>
-#include "FT_tcp_socket.h"
+#include "ft_tcp_socket.h"
 
-struct FT_TcpSocket *FT_TcpSocketCreate(char *host, int port) {
-    struct FT_TcpSocket *socket = (struct FT_TcpSocket *) malloc(sizeof(struct FT_TcpSocket));
+struct ft_tcpSocket *ft_tcpSocketCreate(char *host, int port) {
+    struct ft_tcpSocket *socket = (struct ft_tcpSocket *) malloc(sizeof(struct ft_tcpSocket));
     if (socket == NULL) return NULL;
 
     socket->host = host;
@@ -17,7 +17,7 @@ struct FT_TcpSocket *FT_TcpSocketCreate(char *host, int port) {
     return socket;
 }
 
-int FT_TcpSocketConnect(struct FT_TcpSocket *sock) {
+int ft_tcpSocketConnect(struct ft_tcpSocket *sock) {
     sock->fd = socket(AF_INET, SOCK_STREAM, 0);
     if (sock->fd == -1) {
         return -1;
@@ -37,15 +37,15 @@ int FT_TcpSocketConnect(struct FT_TcpSocket *sock) {
     return 0;
 }
 
-ssize_t FT_TcpSocketReceive(struct FT_TcpSocket *socket, void *buffer, size_t nBytes) {
+ssize_t ft_tcpSocketReceive(struct ft_tcpSocket *socket, void *buffer, size_t nBytes) {
     return recv(socket->fd, buffer, nBytes, 0);
 }
 
-ssize_t FT_TcpSocketSend(struct FT_TcpSocket *socket, const void *buffer, size_t nBytes) {
+ssize_t ft_tcpSocketSend(struct ft_tcpSocket *socket, const void *buffer, size_t nBytes) {
     return send(socket->fd, buffer, nBytes, 0);
 }
 
-int FT_TcpSocketClose(struct FT_TcpSocket *socket) {
+int ft_tcpSocketClose(struct ft_tcpSocket *socket) {
     int closeResult = close(socket->fd);
     if (closeResult == -1) {
         return -1;
@@ -54,6 +54,6 @@ int FT_TcpSocketClose(struct FT_TcpSocket *socket) {
     return 0;
 }
 
-void FT_TcpSocketDestroy(struct FT_TcpSocket *socket) {
+void ft_tcpSocketDestroy(struct ft_tcpSocket *socket) {
     free(socket);
 }
