@@ -24,6 +24,6 @@ double ft_utilReadDouble(unsigned char *array);
 long long ft_utilDoubleToLong(double value);
 double ft_utilLongToDouble(long long value);
 
-void ft_utilPrintBytes(char *array, int arrayLength);
+void ft_utilPrintBytes(unsigned char *array, int arrayLength);
 
 #endif // FT_UTILS_H

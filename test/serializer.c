@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 
     char *event = ft_serializerDeserializeEvent(buffer);
     printf("event: \"%s\" -> ", event);
-    ft_utilPrintBytes(event, ft_serializerDeserializeEventLength(buffer));
+    ft_utilPrintBytes((unsigned char *)event, ft_serializerDeserializeEventLength(buffer));
     free(event);
 
     if (ft_serializerDeserializeDt(buffer) == DT_STRING) {
@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
         printf("data: %f -> ", ft_serializerDeserializeDataAsDouble(buffer));
     }
 
-    char *data = ft_serializerDeserializeDataAsBuffer(buffer);
+    unsigned char *data = ft_serializerDeserializeDataAsBuffer(buffer);
     ft_utilPrintBytes(data, ft_serializerDeserializeDataLength(buffer));
     free(data);
 

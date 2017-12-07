@@ -111,7 +111,7 @@ double ft_utilLongToDouble(long long value) {
     return doubleValue;
 }
 
-void ft_utilPrintBytes(char *array, int arrayLength) {
+void ft_utilPrintBytes(unsigned char *array, int arrayLength) {
     arrayLength = arrayLength < 170 ? arrayLength : 170;
     char string[arrayLength * 3];
     int i;
