@@ -27,6 +27,7 @@ unsigned char *FT_SerializerSerialize(char *event, short eventLength, unsigned c
     int messageLength = 8 + 2 + eventLength + 4 + dataLength;
 
     unsigned char *buffer = (unsigned char *) malloc(sizeof(unsigned char) * (4 + messageLength));
+    if (buffer == NULL) return NULL;
     unsigned char *bufferP = buffer;
 
     FT_UtilWriteInt(messageLength, bufferP);
@@ -61,6 +62,7 @@ short FT_SerializerDeserializeEventLength(unsigned char *buffer) {
 char *FT_SerializerDeserializeEvent(unsigned char *buffer) {
     short eventLength = FT_SerializerDeserializeEventLength(buffer);
     char *event = (char *) malloc(sizeof(char) * eventLength + 1);
+    if (event == NULL) return NULL;
     memcpy(event, buffer + 14, eventLength);
     event[eventLength] = '\0';
     return event;
@@ -75,6 +77,7 @@ unsigned char *FT_SerializerDeserializeDataAsBuffer(unsigned char *buffer) {
     short eventLength = FT_SerializerDeserializeEventLength(buffer);
     int dataLength = FT_SerializerDeserializeDataLength(buffer);
     unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char) * dataLength);
+    if (data == NULL) return NULL;
     memcpy(data, buffer + 14 + eventLength + 4, dataLength);
     return data;
 }
@@ -83,6 +86,7 @@ char *FT_SerializerDeserializeDataAsString(unsigned char *buffer) {
     short eventLength = FT_SerializerDeserializeEventLength(buffer);
     int dataLength = FT_SerializerDeserializeDataLength(buffer);
     char *data = (char *) malloc(sizeof(char) * (dataLength + 1));
+    if (data == NULL) return NULL;
     memcpy(data, buffer + 14 + eventLength + 4, dataLength);
     data[dataLength] = '\0';
     return data;

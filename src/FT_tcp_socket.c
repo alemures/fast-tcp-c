@@ -9,9 +9,7 @@
 
 struct FT_TcpSocket *FT_TcpSocketCreate(char *host, int port) {
     struct FT_TcpSocket *socket = (struct FT_TcpSocket *) malloc(sizeof(struct FT_TcpSocket));
-    if (socket == 0) {
-        return NULL;
-    }
+    if (socket == NULL) return NULL;
 
     socket->host = host;
     socket->port = port;
