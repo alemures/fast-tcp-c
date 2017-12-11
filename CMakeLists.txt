@@ -9,6 +9,9 @@ set(CMAKE_C_STANDARD 99)
 
 file(GLOB SOURCES "src/*.c")
 
+# Dependencies
+find_package(Threads)
+
 # Library
 add_library(fasttcp SHARED ${SOURCES})
 
@@ -16,3 +19,6 @@ add_library(fasttcp SHARED ${SOURCES})
 add_executable(benchmark test/benchmark.c)
 add_executable(serializer src/ft_serializer.c src/ft_util.c test/serializer.c)
 add_executable(tcp_client src/ft_tcp_socket.c src/ft_util.c test/tcp_client.c)
+add_executable(client src/ft_tcp_socket.c src/ft_socket.c src/ft_util.c test/client.c)
+
+target_link_libraries(client ${CMAKE_THREAD_LIBS_INIT})

@@ -38,7 +38,7 @@ void receiveString(struct ft_tcpSocket *socket) {
 int main(int argc, char *argv[]) {
     struct ft_tcpSocket *socket = ft_tcpSocketCreate("127.0.0.1", 5000);
     if (socket == NULL) {
-        ft_utilLogError("Error creating socket\n");
+        ft_utilLogError("Error creating socket");
         exit(-1);
     }
 
