@@ -16,6 +16,7 @@ int main(int argc, char *argv[]) {
     unsigned char *buffer = ft_serializerSerialize("The event", 9, decimal, 8, MT_DATA, DT_DOUBLE, 1);
     // unsigned char *buffer = ft_serializerSerialize("The event", 9, integer, 6, MT_DATA, DT_INT, 1);
     // unsigned char *buffer = ft_serializerSerialize("The event", 9, text, strlen(text), MT_DATA, DT_STRING, 1);
+    printf("MESSAGE: ");
     ft_utilPrintBytes(buffer, ft_serializerBufferLength(buffer));
 
     printf("dt: %d\n", ft_serializerDeserializeDt(buffer));

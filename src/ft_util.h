@@ -3,10 +3,10 @@
 
 extern const char HEX_VALUES[];
 
-void ft_utilLogDebug(char *message);
-void ft_utilLogInfo(char *message);
-void ft_utilLogWarning(char *message);
-void ft_utilLogError(char *message);
+void ft_utilLogDebug(char *format, ...);
+void ft_utilLogInfo(char *format, ...);
+void ft_utilLogWarning(char *format, ...);
+void ft_utilLogError(char *format, ...);
 void ft_utilLog(char *label, char *message);
 
 void ft_utilWriteShort(short value, unsigned char *array);
