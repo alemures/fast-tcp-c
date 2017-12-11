@@ -26,7 +26,7 @@ const char MT_LEAVE_ALL_ROOMS = 10;
 unsigned char *ft_serializerSerialize(char *event, short eventLength, unsigned char *data, short dataLength, char mt, char dt, int messageId) {
     int messageLength = 8 + 2 + eventLength + 4 + dataLength;
 
-    unsigned char *buffer = (unsigned char *) malloc(sizeof(unsigned char) * (4 + messageLength));
+    unsigned char *buffer = (unsigned char *) malloc(4 + messageLength);
     if (buffer == NULL) return NULL;
     unsigned char *bufferP = buffer;
 
@@ -61,7 +61,7 @@ short ft_serializerDeserializeEventLength(unsigned char *buffer) {
 
 char *ft_serializerDeserializeEvent(unsigned char *buffer) {
     short eventLength = ft_serializerDeserializeEventLength(buffer);
-    char *event = (char *) malloc(sizeof(char) * eventLength + 1);
+    char *event = (char *) malloc(eventLength + 1);
     if (event == NULL) return NULL;
     memcpy(event, buffer + 14, eventLength);
     event[eventLength] = '\0';
@@ -76,7 +76,7 @@ int ft_serializerDeserializeDataLength(unsigned char *buffer) {
 unsigned char *ft_serializerDeserializeDataAsBuffer(unsigned char *buffer) {
     short eventLength = ft_serializerDeserializeEventLength(buffer);
     int dataLength = ft_serializerDeserializeDataLength(buffer);
-    unsigned char *data = (unsigned char *) malloc(sizeof(unsigned char) * dataLength);
+    unsigned char *data = (unsigned char *) malloc(dataLength);
     if (data == NULL) return NULL;
     memcpy(data, buffer + 14 + eventLength + 4, dataLength);
     return data;
@@ -85,7 +85,7 @@ unsigned char *ft_serializerDeserializeDataAsBuffer(unsigned char *buffer) {
 char *ft_serializerDeserializeDataAsString(unsigned char *buffer) {
     short eventLength = ft_serializerDeserializeEventLength(buffer);
     int dataLength = ft_serializerDeserializeDataLength(buffer);
-    char *data = (char *) malloc(sizeof(char) * (dataLength + 1));
+    char *data = (char *) malloc(dataLength + 1);
     if (data == NULL) return NULL;
     memcpy(data, buffer + 14 + eventLength + 4, dataLength);
     data[dataLength] = '\0';
