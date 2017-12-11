@@ -5,10 +5,17 @@
 #include "../src/ft_util.h"
 
 int main(int argc, char *argv[]) {
-    unsigned char number[8];
-    ft_utilWriteDouble(21.1, number);
+    unsigned char decimal[8];
+    ft_utilWriteDouble(21.1, decimal);
 
-    unsigned char *buffer = ft_serializerSerialize("The event", 9, number, 8, MT_DATA, DT_DOUBLE, 1);
+    unsigned char integer[6];
+    ft_utilWriteInt48(125, integer);
+
+    char text[] = "Hello, World!";
+
+    unsigned char *buffer = ft_serializerSerialize("The event", 9, decimal, 8, MT_DATA, DT_DOUBLE, 1);
+    // unsigned char *buffer = ft_serializerSerialize("The event", 9, integer, 6, MT_DATA, DT_INT, 1);
+    // unsigned char *buffer = ft_serializerSerialize("The event", 9, text, strlen(text), MT_DATA, DT_STRING, 1);
     ft_utilPrintBytes(buffer, ft_serializerBufferLength(buffer));
 
     printf("dt: %d\n", ft_serializerDeserializeDt(buffer));
