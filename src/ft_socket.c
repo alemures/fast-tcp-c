@@ -11,11 +11,11 @@ struct ft_socket *ft_socketCreate(char *host, int port) {
     if (socket == NULL) return NULL;
     socket->socket = ft_tcpSocketCreate(host, port);
     if (socket->socket == NULL) return NULL;
+    socket->thread = (pthread_t *) malloc(sizeof(pthread_t));
+    if (socket->thread == NULL) return NULL;
     socket->connected = false;
     socket->messageId = 1;
     socket->id = NULL;
-    socket->thread = (pthread_t *) malloc(sizeof(pthread_t));
-    if (socket->thread == NULL) return NULL;
     return socket;
 }
 
