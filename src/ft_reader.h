@@ -10,12 +10,10 @@ struct ft_reader {
     int bytesRead;
     int messageLength;
     int offsetChunk;
-
-    int buffersRead;
 };
 
 struct ft_reader *ft_readerCreate();
-unsigned char **ft_readerRead(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength);
+int ft_readerRead(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength, unsigned char **buffers);
 bool ft_readerReadMessageLength(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength);
 bool ft_readerReadMessageContent(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength);
 void ft_readerCreateBuffer(struct ft_reader *reader);

@@ -21,12 +21,12 @@ int main(int argc, char *argv[]) {
     };
     int chunkLength = 35 * 3;
 
-    unsigned char **buffers = ft_readerRead(reader, chunk, chunkLength);
-    for (int i = 0; i < reader->buffersRead; i++) {
+    unsigned char *buffers[32];
+    int buffersRead = ft_readerRead(reader, chunk, chunkLength, buffers);
+    for (int i = 0; i < buffersRead; i++) {
         ft_utilPrintBytes(buffers[i], 35);
         free(buffers[i]);
     }
-    free(buffers);
     ft_readerDestroy(reader);
 
     return 0;

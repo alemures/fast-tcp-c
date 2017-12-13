@@ -8,16 +8,17 @@ struct ft_reader *ft_readerCreate() {
     struct ft_reader *reader = (struct ft_reader *) malloc(sizeof(struct ft_reader));
     if (reader == NULL) return NULL;
     reader->buffer = NULL;
+    reader->bufferLength = 0;
     reader->offset = 0;
     reader->bytesRead = 0;
     reader->messageLength = 0;
+    reader->offsetChunk = 0;
     return reader;
 }
 
-unsigned char **ft_readerRead(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength) {
+int ft_readerRead(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength, unsigned char **buffers) {
+    int buffersRead = 0;
     reader->offsetChunk = 0;
-    unsigned char **buffers = NULL;
-    reader->buffersRead = 0;
 
     while(reader->offsetChunk < effectiveChunkLength) {
         if (reader->bytesRead < 4) {
@@ -33,20 +34,14 @@ unsigned char **ft_readerRead(struct ft_reader *reader, unsigned char *chunk, in
         }
 
         // Buffer ready, store it and keep reading the chunk
-        reader->buffersRead++;
-        if (buffers == NULL) {
-            buffers = (unsigned char **) malloc(sizeof(unsigned char *) * reader->buffersRead);
-        } else {
-            buffers = (unsigned char **) realloc(buffers, sizeof(unsigned char *) * reader->buffersRead);
-        }
-        buffers[reader->buffersRead - 1] = reader->buffer;
+        buffers[buffersRead++] = reader->buffer;
         reader->buffer = NULL;
         reader->offset = 0;
         reader->bytesRead = 0;
         reader->messageLength = 0;
     }
 
-    return buffers;
+    return buffersRead;
 }
 
 bool ft_readerReadMessageLength(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength) {
