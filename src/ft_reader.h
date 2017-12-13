@@ -13,6 +13,7 @@ struct ft_reader {
 };
 
 struct ft_reader *ft_readerCreate();
+// Returns -1 if chunk couldn't be processed
 int ft_readerRead(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength, unsigned char **buffers);
 bool ft_readerReadMessageLength(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength);
 bool ft_readerReadMessageContent(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength);

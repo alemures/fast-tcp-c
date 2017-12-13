@@ -24,6 +24,12 @@ int ft_readerRead(struct ft_reader *reader, unsigned char *chunk, int effectiveC
         if (reader->bytesRead < 4) {
             if (ft_readerReadMessageLength(reader, chunk, effectiveChunkLength)) {
                 ft_readerCreateBuffer(reader);
+                if (reader->buffer == NULL) {
+                    reader->offset = 0;
+                    reader->bytesRead = 0;
+                    reader->messageLength = 0;
+                    return -1;
+                }
             } else {
                 break;
             }
@@ -71,6 +77,7 @@ bool ft_readerReadMessageContent(struct ft_reader *reader, unsigned char *chunk,
 void ft_readerCreateBuffer(struct ft_reader *reader) {
     reader->bufferLength = 4 + reader->messageLength;
     reader->buffer = (unsigned char *) malloc(reader->bufferLength);
+    if (reader->buffer == NULL) return;
     ft_utilWriteInt(reader->messageLength, reader->buffer);
     reader->offset += 4;
 }
