@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 #include "ft_serializer.h"
 #include "ft_util.h"
 

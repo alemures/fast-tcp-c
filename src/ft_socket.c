@@ -1,7 +1,5 @@
-#include <stdio.h>
 #include <stdlib.h>
-#include <stddef.h>
-#include <stdbool.h>
+// In header file: <stdbool.h> <pthread.h>
 #include "ft_socket.h"
 #include "ft_tcp_socket.h"
 #include "ft_util.h"
@@ -53,7 +51,7 @@ void *ft_socketReceiver(void *args) {
     }
 
     buffer[bytesRead] = '\0';
-    printf("Received: %s\n", buffer);
+    ft_utilLogDebug("Received: %s\n", buffer);
 
     ft_tcpSocketClose(socket->socket);
     return NULL;

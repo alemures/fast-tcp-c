@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+// In header file: <stdbool.h>
 #include "ft_reader.h"
 #include "ft_util.h"
 

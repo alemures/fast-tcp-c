@@ -4,7 +4,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#include <time.h>
+// In header file: <sys/types.h>
 #include "ft_tcp_socket.h"
 
 struct ft_tcpSocket *ft_tcpSocketCreate(char *host, int port) {
