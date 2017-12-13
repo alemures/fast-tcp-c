@@ -1,28 +1,53 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include "ft_util.h"
 
 const char HEX_VALUES[] = "0123456789abcdef";
 
-void ft_utilLogDebug(char *message) {
-    ft_utilLog("[DEBUG]", message);
+void ft_utilLogDebug(char *format, ...) {
+    char message[64];
+    va_list arg;
+    va_start (arg, format);
+    vsprintf (message, format, arg);
+    va_end (arg);
+
+    ft_utilLog("DEBUG", message);
 }
 
-void ft_utilLogInfo(char *message) {
-    ft_utilLog("[INFO]", message);
+void ft_utilLogInfo(char *format, ...) {
+    char message[64];
+    va_list arg;
+    va_start (arg, format);
+    vsprintf (message, format, arg);
+    va_end (arg);
+
+    ft_utilLog("INFO", message);
 }
 
-void ft_utilLogWarning(char *message) {
-    ft_utilLog("[WARNING]", message);
+void ft_utilLogWarning(char *format, ...) {
+    char message[64];
+    va_list arg;
+    va_start (arg, format);
+    vsprintf (message, format, arg);
+    va_end (arg);
+
+    ft_utilLog("WARNING", message);
 }
 
-void ft_utilLogError(char *message) {
-    ft_utilLog("[ERROR]", message);
+void ft_utilLogError(char *format, ...) {
+    char message[64];
+    va_list arg;
+    va_start (arg, format);
+    vsprintf (message, format, arg);
+    va_end (arg);
+
+    ft_utilLog("ERROR", message);
 }
 
 void ft_utilLog(char *label, char *message) {
-    printf("%s %s\n", label, message);
+    printf("[%s] %s\n", label, message);
 }
 
 void ft_utilWriteShort(short value, unsigned char *array) {
