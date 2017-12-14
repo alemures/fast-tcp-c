@@ -7,7 +7,7 @@
 // In header file: <sys/types.h>
 #include "ft_tcp_socket.h"
 
-struct ft_tcpSocket *ft_tcpSocketCreate(char *host, int port) {
+struct ft_tcpSocket *ft_tcpSocketCreate(char *host, unsigned short port) {
     struct ft_tcpSocket *socket = (struct ft_tcpSocket *) malloc(sizeof(struct ft_tcpSocket));
     if (socket == NULL) return NULL;
 

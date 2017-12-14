@@ -50,19 +50,19 @@ void ft_utilLog(char *label, char *message) {
     printf("[%s] %s\n", label, message);
 }
 
-void ft_utilWriteShort(short value, unsigned char *array) {
+void ft_utilWriteUShort(unsigned short value, unsigned char *array) {
     array[0] = value;
     array[1] = value >> 8;
 }
 
-void ft_utilWriteInt(int value, unsigned char *array) {
+void ft_utilWriteUInt(unsigned int value, unsigned char *array) {
     array[0] = value;
     array[1] = value >> 8;
     array[2] = value >> 16;
     array[3] = value >> 24;
 }
 
-void ft_utilWriteInt48(long long value, unsigned char *array) {
+void ft_utilWriteUInt48(unsigned long long value, unsigned char *array) {
     array[0] = value;
     array[1] = value >> 8;
     array[2] = value >> 16;
@@ -71,7 +71,7 @@ void ft_utilWriteInt48(long long value, unsigned char *array) {
     array[5] = value >> 40;
 }
 
-void ft_utilWriteLong(long long value, unsigned char *array) {
+void ft_utilWriteULong(unsigned long long value, unsigned char *array) {
     array[0] = value;
     array[1] = value >> 8;
     array[2] = value >> 16;
@@ -83,63 +83,63 @@ void ft_utilWriteLong(long long value, unsigned char *array) {
 }
 
 void ft_utilWriteDouble(double value, unsigned char *array) {
-    long long longValue = ft_utilDoubleToLong(value);
-    ft_utilWriteLong(longValue, array);
+    long long longValue = ft_utilDoubleToULong(value);
+    ft_utilWriteULong(longValue, array);
 }
 
-short ft_utilReadShort(unsigned char *array) {
+unsigned short ft_utilReadUShort(unsigned char *array) {
     return array[0] |
             array[1] << 8;
 }
 
-int ft_utilReadInt(unsigned char *array) {
+unsigned int ft_utilReadUInt(unsigned char *array) {
     return array[0] |
             array[1] << 8 |
             array[2] << 16 |
             array[3] << 24;
 }
 
-long long ft_utilReadInt48(unsigned char *array) {
+unsigned long long ft_utilReadUInt48(unsigned char *array) {
     return array[0] |
             array[1] << 8 |
             array[2] << 16 |
-            (long long)array[3] << 24 |
-            (long long)array[4] << 32 |
-            (long long)array[5] << 40;
+            (unsigned long long)array[3] << 24 |
+            (unsigned long long)array[4] << 32 |
+            (unsigned long long)array[5] << 40;
 }
 
-long long ft_utilReadLong(unsigned char *array) {
+unsigned long long ft_utilReadULong(unsigned char *array) {
     return array[0] |
             array[1] << 8 |
             array[2] << 16 |
-            (long long)array[3] << 24 |
-            (long long)array[4] << 32 |
-            (long long)array[5] << 40 |
-            (long long)array[6] << 48 |
-            (long long)array[7] << 56;
+            (unsigned long long)array[3] << 24 |
+            (unsigned long long)array[4] << 32 |
+            (unsigned long long)array[5] << 40 |
+            (unsigned long long)array[6] << 48 |
+            (unsigned long long)array[7] << 56;
 }
 
 double ft_utilReadDouble(unsigned char *array) {
-    long long longValue = ft_utilReadLong(array);
-    return ft_utilLongToDouble(longValue);
+    long long longValue = ft_utilReadULong(array);
+    return ft_utilULongToDouble(longValue);
 }
 
-long long ft_utilDoubleToLong(double value) {
-    long long longValue;
-    memcpy(&longValue, &value, sizeof(long long));
+unsigned long long ft_utilDoubleToULong(double value) {
+    unsigned long long longValue;
+    memcpy(&longValue, &value, sizeof(unsigned long long));
     return longValue;
 }
 
-double ft_utilLongToDouble(long long value) {
+double ft_utilULongToDouble(unsigned long long value) {
     double doubleValue;
-    memcpy(&doubleValue, &value, sizeof(long long));
+    memcpy(&doubleValue, &value, sizeof(unsigned long long));
     return doubleValue;
 }
 
-void ft_utilPrintBytes(unsigned char *array, int arrayLength) {
+void ft_utilPrintBytes(unsigned char *array, size_t arrayLength) {
     arrayLength = arrayLength < 170 ? arrayLength : 170;
     char string[arrayLength * 3];
-    int i;
+    size_t i;
 
     for (i = 0; i < arrayLength; i++) {
         string[i * 3] = HEX_VALUES[(array[i] >> 4) & 0xF];

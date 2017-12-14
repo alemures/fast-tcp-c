@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
     ft_utilWriteDouble(21.1, decimal);
 
     unsigned char integer[6];
-    ft_utilWriteInt48(125, integer);
+    ft_utilWriteUInt48(125, integer);
 
     char text[] = "Hello, World!";
 

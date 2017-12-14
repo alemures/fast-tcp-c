@@ -3,11 +3,11 @@
 #include "../src/ft_util.h"
 
 void testWriteReadShort() {
-    char shortBuffer[2];
-    short value = 65535;
+    unsigned char shortBuffer[2];
+    unsigned short value = 65535;
 
-    ft_utilWriteShort(value, shortBuffer);
-    short readValue = ft_utilReadShort(shortBuffer);
+    ft_utilWriteUShort(value, shortBuffer);
+    unsigned short readValue = ft_utilReadUShort(shortBuffer);
 
     assert(value == readValue);
 }

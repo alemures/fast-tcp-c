@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-// In header file: <stdbool.h>
+// In header file: <stddef.h> <stdbool.h>
 #include "ft_reader.h"
 #include "ft_util.h"
 
@@ -16,7 +16,7 @@ struct ft_reader *ft_readerCreate() {
     return reader;
 }
 
-int ft_readerRead(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength, unsigned char **buffers) {
+int ft_readerRead(struct ft_reader *reader, unsigned char *chunk, size_t effectiveChunkLength, unsigned char **buffers) {
     int buffersRead = 0;
     reader->offsetChunk = 0;
 
@@ -50,7 +50,7 @@ int ft_readerRead(struct ft_reader *reader, unsigned char *chunk, int effectiveC
     return buffersRead;
 }
 
-bool ft_readerReadMessageLength(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength) {
+bool ft_readerReadMessageLength(struct ft_reader *reader, unsigned char *chunk, size_t effectiveChunkLength) {
     for (; reader->offsetChunk < effectiveChunkLength && reader->bytesRead < 4; reader->offsetChunk++, reader->bytesRead++) {
         reader->messageLength |= chunk[reader->offsetChunk] << (reader->bytesRead * 8);
     }
@@ -58,14 +58,14 @@ bool ft_readerReadMessageLength(struct ft_reader *reader, unsigned char *chunk, 
     return reader->bytesRead == 4;
 }
 
-bool ft_readerReadMessageContent(struct ft_reader *reader, unsigned char *chunk, int effectiveChunkLength) {
-    int bytesToRead = reader->bufferLength - reader->bytesRead;
-    int bytesInChunk = effectiveChunkLength - reader->offsetChunk;
-    int end = bytesToRead > bytesInChunk ? effectiveChunkLength : reader->offsetChunk + bytesToRead;
+bool ft_readerReadMessageContent(struct ft_reader *reader, unsigned char *chunk, size_t effectiveChunkLength) {
+    size_t bytesToRead = reader->bufferLength - reader->bytesRead;
+    size_t bytesInChunk = effectiveChunkLength - reader->offsetChunk;
+    size_t end = bytesToRead > bytesInChunk ? effectiveChunkLength : reader->offsetChunk + bytesToRead;
 
     memcpy(reader->buffer + reader->offset, chunk + reader->offsetChunk, end - reader->offsetChunk);
 
-    int bytesActuallyRead = end - reader->offsetChunk;
+    size_t bytesActuallyRead = end - reader->offsetChunk;
 
     reader->bytesRead += bytesActuallyRead;
     reader->offset += bytesActuallyRead;
@@ -78,7 +78,7 @@ void ft_readerCreateBuffer(struct ft_reader *reader) {
     reader->bufferLength = 4 + reader->messageLength;
     reader->buffer = (unsigned char *) malloc(reader->bufferLength);
     if (reader->buffer == NULL) return;
-    ft_utilWriteInt(reader->messageLength, reader->buffer);
+    ft_utilWriteUInt(reader->messageLength, reader->buffer);
     reader->offset += 4;
 }
 
