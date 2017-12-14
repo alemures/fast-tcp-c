@@ -4,13 +4,22 @@
 #include "ft_tcp_socket.h"
 #include "ft_util.h"
 
-struct ft_socket *ft_socketCreate(char *host, int port) {
+const unsigned int MAX_MESSAGE_ID = 4294967295;
+
+struct ft_socket *ft_socketCreate(char *host, unsigned short port) {
     struct ft_socket *socket = (struct ft_socket *) malloc(sizeof(struct ft_socket));
     if (socket == NULL) return NULL;
     socket->socket = ft_tcpSocketCreate(host, port);
-    if (socket->socket == NULL) return NULL;
-    socket->thread = (pthread_t *) malloc(sizeof(pthread_t));
-    if (socket->thread == NULL) return NULL;
+    if (socket->socket == NULL) {
+        free(socket);
+        return NULL;
+    }
+    socket->receiverThread = (pthread_t *) malloc(sizeof(pthread_t));
+    if (socket->receiverThread == NULL) {
+        ft_tcpSocketDestroy(socket->socket);
+        free(socket);
+        return NULL;
+    }
     socket->connected = false;
     socket->messageId = 1;
     socket->id = NULL;
@@ -18,17 +27,24 @@ struct ft_socket *ft_socketCreate(char *host, int port) {
 }
 
 void ft_socketConnect(struct ft_socket *socket) {
-    pthread_create(socket->thread, NULL, &ft_socketReceiver, socket);
+    pthread_create(socket->receiverThread, NULL, &ft_socketReceiver, socket);
 }
 
 void ft_socketClose(struct ft_socket *socket) {
-    pthread_join(*socket->thread, NULL);
+    pthread_join(*socket->receiverThread, NULL);
 }
 
 void ft_socketDestroy(struct ft_socket *socket) {
+    free(socket->receiverThread);
     ft_tcpSocketDestroy(socket->socket);
-    free(socket->thread);
     free(socket);
+}
+
+unsigned int ft_socketNextMessageId(struct ft_socket *socket) {
+    if (++socket->messageId >= MAX_MESSAGE_ID) {
+        socket->messageId = 1;
+    }
+    return socket->messageId;
 }
 
 void *ft_socketReceiver(void *args) {
