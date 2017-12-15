@@ -5,16 +5,14 @@
 #include <pthread.h>
 #include "ft_tcp_socket.h"
 
-enum ft_event {
-    FT_EVENT_CONNECT,
-    FT_EVENT_SOCKET_CONNECT,
-    FT_EVENT_END,
-    FT_EVENT_CLOSE,
-    FT_EVENT_ERROR,
-    FT_EVENT_RECONNECTING
-};
+extern const char FT_EVENT_CONNECT;
+extern const char FT_EVENT_SOCKET_CONNECT;
+extern const char FT_EVENT_END;
+extern const char FT_EVENT_CLOSE;
+extern const char FT_EVENT_ERROR;
+extern const char FT_EVENT_RECONNECTING;
 
-extern const unsigned int MAX_MESSAGE_ID;
+extern const unsigned int FT_MAX_MESSAGE_ID;
 
 struct ft_socket {
     struct ft_tcpSocket *socket;
@@ -32,5 +30,6 @@ void ft_socketDestroy(struct ft_socket *socket);
 
 unsigned int ft_socketNextMessageId();
 void *ft_socketReceiver(void *args);
+void ft_socketProcess();
 
 #endif // FT_SOCKET_H

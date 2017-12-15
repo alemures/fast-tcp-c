@@ -4,24 +4,24 @@
 #include "ft_serializer.h"
 #include "ft_util.h"
 
-const char VERSION = 1;
+const char FT_VERSION = 1;
 
-const char DT_STRING = 1;
-const char DT_BUFFER = 2;
-const char DT_INT = 3;
-const char DT_DOUBLE = 4;
-const char DT_OBJECT = 5;
+const char FT_DT_STRING = 1;
+const char FT_DT_BUFFER = 2;
+const char FT_DT_INT = 3;
+const char FT_DT_DOUBLE = 4;
+const char FT_DT_OBJECT = 5;
 
-const char MT_REGISTER = 1;
-const char MT_DATA = 2;
-const char MT_DATA_TO_SOCKET = 3;
-const char MT_DATA_TO_ROOM = 4;
-const char MT_DATA_BROADCAST = 5;
-const char MT_DATA_WITH_ACK = 6;
-const char MT_ACK = 7;
-const char MT_JOIN_ROOM = 8;
-const char MT_LEAVE_ROOM = 9;
-const char MT_LEAVE_ALL_ROOMS = 10;
+const char FT_MT_REGISTER = 1;
+const char FT_MT_DATA = 2;
+const char FT_MT_DATA_TO_SOCKET = 3;
+const char FT_MT_DATA_TO_ROOM = 4;
+const char FT_MT_DATA_BROADCAST = 5;
+const char FT_MT_DATA_WITH_ACK = 6;
+const char FT_MT_ACK = 7;
+const char FT_MT_JOIN_ROOM = 8;
+const char FT_MT_LEAVE_ROOM = 9;
+const char FT_MT_LEAVE_ALL_ROOMS = 10;
 
 unsigned char *ft_serializerSerialize(char *event, unsigned short eventLength, unsigned char *data, unsigned int dataLength, char mt, char dt, unsigned int messageId) {
     unsigned int messageLength = 8 + 2 + eventLength + 4 + dataLength;
@@ -33,7 +33,7 @@ unsigned char *ft_serializerSerialize(char *event, unsigned short eventLength, u
     ft_utilWriteUInt(messageLength, bufferP);
     bufferP += 4;
 
-    *(bufferP++) = VERSION;
+    *(bufferP++) = FT_VERSION;
     *(bufferP++) = 0;
     *(bufferP++) = dt;
     *(bufferP++) = mt;
