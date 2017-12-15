@@ -29,7 +29,8 @@ void ft_socketClose(struct ft_socket *socket);
 void ft_socketDestroy(struct ft_socket *socket);
 
 unsigned int ft_socketNextMessageId();
-void *ft_socketReceiver(void *args);
+void *ft_socketReceiverThreadHandler(void *args);
+void ft_socketReceiver(struct ft_socket *socket);
 void ft_socketProcess();
 
 #endif // FT_SOCKET_H

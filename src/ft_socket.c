@@ -36,7 +36,7 @@ struct ft_socket *ft_socketCreate(char *host, unsigned short port) {
 }
 
 void ft_socketConnect(struct ft_socket *socket) {
-    pthread_create(socket->receiverThread, NULL, &ft_socketReceiver, socket);
+    pthread_create(socket->receiverThread, NULL, &ft_socketReceiverThreadHandler, socket);
 }
 
 void ft_socketClose(struct ft_socket *socket) {
@@ -56,7 +56,7 @@ unsigned int ft_socketNextMessageId(struct ft_socket *socket) {
     return socket->messageId;
 }
 
-void *ft_socketReceiver(void *args) {
+void *ft_socketReceiverThreadHandler(void *args) {
     struct ft_socket *socket = (struct ft_socket *) args;
 
     int res = ft_tcpSocketConnect(socket->socket);
@@ -66,26 +66,32 @@ void *ft_socketReceiver(void *args) {
     }
 
     socket->connected = true;
+    ft_socketReceiver(socket);
+    socket->connected = false;
 
+    ft_tcpSocketClose(socket->socket);
+    return NULL;
+}
+
+void ft_socketReceiver(struct ft_socket *socket) {
     ssize_t bytesRead;
     unsigned char chunk[1024];
-
+    int buffersRead = 0;
+    unsigned char *buffers[256];
     struct ft_reader *reader = ft_readerCreate();
     if (reader == NULL) {
         ft_utilLogError("Could not create ft_reader in thread");
-        return NULL;
+        return;
     }
-    int buffersRead = 0;
-    unsigned char *buffers[256];
 
     while(true) {
         bytesRead = ft_tcpSocketReceive(socket->socket, &chunk, 1024);
         if (bytesRead == -1) {
             ft_utilLogError("Could not receive data in thread");
-            return NULL;
+            return;
         } else if (bytesRead == 0) {
             ft_utilLogWarning("No messages available or socket disconnected in thread");
-            return NULL;
+            return;
         }
 
         buffersRead = ft_readerRead(reader, chunk, bytesRead, buffers);
@@ -95,11 +101,6 @@ void *ft_socketReceiver(void *args) {
             }
         }
     }
-
-    socket->connected = false;
-
-    ft_tcpSocketClose(socket->socket);
-    return NULL;
 }
 
 void ft_socketProcess(unsigned char *buffer) {
