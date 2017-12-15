@@ -31,6 +31,6 @@ void ft_socketDestroy(struct ft_socket *socket);
 unsigned int ft_socketNextMessageId();
 void *ft_socketReceiverThreadHandler(void *args);
 void ft_socketReceiver(struct ft_socket *socket);
-void ft_socketProcess();
+void ft_socketProcess(struct ft_socket *socket, unsigned char *buffer);
 
 #endif // FT_SOCKET_H

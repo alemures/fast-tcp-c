@@ -44,6 +44,7 @@ void ft_socketClose(struct ft_socket *socket) {
 }
 
 void ft_socketDestroy(struct ft_socket *socket) {
+    free(socket->id);
     free(socket->receiverThread);
     ft_tcpSocketDestroy(socket->socket);
     free(socket);
@@ -97,13 +98,25 @@ void ft_socketReceiver(struct ft_socket *socket) {
         buffersRead = ft_readerRead(reader, chunk, bytesRead, buffers);
         if (buffersRead > 0) {
             for (int i = 0; i < buffersRead; i++) {
-                ft_socketProcess(buffers[i]);
+                ft_socketProcess(socket, buffers[i]);
+                free(buffers[i]);
             }
         }
     }
+
+    ft_readerDestroy(reader);
 }
 
-void ft_socketProcess(unsigned char *buffer) {
+void ft_socketProcess(struct ft_socket *socket, unsigned char *buffer) {
     size_t bufferLength = ft_serializerBufferLength(buffer);
-    ft_utilPrintBytes(buffer, bufferLength);
+    char mt = ft_serializerDeserializeMt(buffer);
+
+    if (mt == FT_MT_DATA) {
+        ft_utilPrintBytes(buffer, bufferLength);
+    } else if (mt == FT_MT_REGISTER) {
+        socket->id = ft_serializerDeserializeDataString(buffer);
+    } else if (mt == FT_MT_ERROR) {
+        char *error = ft_serializerDeserializeDataString(buffer);
+        ft_utilLogDebug("MT error: %s", error);
+    }
 }
