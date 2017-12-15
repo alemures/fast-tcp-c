@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "../src/ft_serializer.h"
 #include "../src/ft_util.h"
 
@@ -13,9 +14,13 @@ int main(int argc, char *argv[]) {
 
     char text[] = "Hello, World!";
 
-    unsigned char *buffer = ft_serializerSerialize("The event", 9, decimal, 8, FT_MT_DATA, FT_DT_DOUBLE, 1);
-    // unsigned char *buffer = ft_serializerSerialize("The event", 9, integer, 6, MT_DATA, DT_INT, 1);
-    // unsigned char *buffer = ft_serializerSerialize("The event", 9, text, strlen(text), MT_DATA, DT_STRING, 1);
+    unsigned char boolean[1] = {1};
+
+    unsigned char *buffer = ft_serializerSerialize("The event", 9, decimal, 8, FT_MT_DATA, FT_DT_DECIMAL, 1);
+    // unsigned char *buffer = ft_serializerSerialize("The event", 9, integer, 6, FT_MT_DATA, FT_DT_INT, 1);
+    // unsigned char *buffer = ft_serializerSerialize("The event", 9, text, strlen(text), FT_MT_DATA, FT_DT_STRING, 1);
+    // unsigned char *buffer = ft_serializerSerialize("The event", 9, boolean, 1, FT_MT_DATA, FT_DT_BOOLEAN, 1);
+    // unsigned char *buffer = ft_serializerSerialize("The event", 9, NULL, 0, FT_MT_DATA, FT_DT_EMPTY, 1);
     printf("MESSAGE: ");
     ft_utilPrintBytes(buffer, ft_serializerBufferLength(buffer));
 
@@ -29,16 +34,20 @@ int main(int argc, char *argv[]) {
     free(event);
 
     if (ft_serializerDeserializeDt(buffer) == FT_DT_STRING) {
-        char *data = ft_serializerDeserializeDataAsString(buffer);
+        char *data = ft_serializerDeserializeDataString(buffer);
         printf("data: \"%s\" -> ", data);
         free(data);
-    } else if (ft_serializerDeserializeDt(buffer) == FT_DT_INT) {
-        printf("data: %lld -> ", ft_serializerDeserializeDataAsInt48(buffer));
-    } else if (ft_serializerDeserializeDt(buffer) == FT_DT_DOUBLE) {
-        printf("data: %f -> ", ft_serializerDeserializeDataAsDouble(buffer));
+    } else if (ft_serializerDeserializeDt(buffer) == FT_DT_INTEGER) {
+        printf("data: %lld -> ", ft_serializerDeserializeDataInteger(buffer));
+    } else if (ft_serializerDeserializeDt(buffer) == FT_DT_DECIMAL) {
+        printf("data: %f -> ", ft_serializerDeserializeDataDecimal(buffer));
+    } else if (ft_serializerDeserializeDt(buffer) == FT_DT_BOOLEAN) {
+        printf("data: %s -> ", ft_serializerDeserializeDataBoolean(buffer) ? "true" : "false");
+    } else if (ft_serializerDeserializeDt(buffer) == FT_DT_EMPTY) {
+        printf("data: <empty> -> ");
     }
 
-    unsigned char *data = ft_serializerDeserializeDataAsBuffer(buffer);
+    unsigned char *data = ft_serializerDeserializeDataBinary(buffer);
     ft_utilPrintBytes(data, ft_serializerDeserializeDataLength(buffer));
     free(data);
 

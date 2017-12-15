@@ -7,11 +7,14 @@
 const char FT_VERSION = 1;
 
 const char FT_DT_STRING = 1;
-const char FT_DT_BUFFER = 2;
-const char FT_DT_INT = 3;
-const char FT_DT_DOUBLE = 4;
+const char FT_DT_BINARY = 2;
+const char FT_DT_INTEGER = 3;
+const char FT_DT_DECIMAL = 4;
 const char FT_DT_OBJECT = 5;
+const char FT_DT_BOOLEAN = 6;
+const char FT_DT_EMPTY = 7;
 
+const char FT_MT_ERROR = 0;
 const char FT_MT_REGISTER = 1;
 const char FT_MT_DATA = 2;
 const char FT_MT_DATA_TO_SOCKET = 3;
@@ -73,7 +76,7 @@ unsigned int ft_serializerDeserializeDataLength(unsigned char *buffer) {
     return ft_utilReadUInt(buffer + 14 + eventLength);
 }
 
-unsigned char *ft_serializerDeserializeDataAsBuffer(unsigned char *buffer) {
+unsigned char *ft_serializerDeserializeDataBinary(unsigned char *buffer) {
     unsigned short eventLength = ft_serializerDeserializeEventLength(buffer);
     unsigned int dataLength = ft_serializerDeserializeDataLength(buffer);
     unsigned char *data = (unsigned char *) malloc(dataLength);
@@ -82,7 +85,7 @@ unsigned char *ft_serializerDeserializeDataAsBuffer(unsigned char *buffer) {
     return data;
 }
 
-char *ft_serializerDeserializeDataAsString(unsigned char *buffer) {
+char *ft_serializerDeserializeDataString(unsigned char *buffer) {
     unsigned short eventLength = ft_serializerDeserializeEventLength(buffer);
     unsigned int dataLength = ft_serializerDeserializeDataLength(buffer);
     char *data = (char *) malloc(dataLength + 1);
@@ -92,14 +95,19 @@ char *ft_serializerDeserializeDataAsString(unsigned char *buffer) {
     return data;
 }
 
-long long ft_serializerDeserializeDataAsInt48(unsigned char *buffer) {
+long long ft_serializerDeserializeDataInteger(unsigned char *buffer) {
     unsigned short eventLength = ft_serializerDeserializeEventLength(buffer);
     return ft_utilReadUInt48(buffer + 14 + eventLength + 4);
 }
 
-double ft_serializerDeserializeDataAsDouble(unsigned char *buffer) {
+double ft_serializerDeserializeDataDecimal(unsigned char *buffer) {
     unsigned short eventLength = ft_serializerDeserializeEventLength(buffer);
     return ft_utilReadDouble(buffer + 14 + eventLength + 4);
+}
+
+bool ft_serializerDeserializeDataBoolean(unsigned char *buffer) {
+    unsigned short eventLength = ft_serializerDeserializeEventLength(buffer);
+    return *(buffer + 14 + eventLength + 4) ? true : false;
 }
 
 char ft_serializerDeserializeMt(unsigned char *buffer) {
@@ -121,4 +129,3 @@ unsigned int ft_serializerDeserializeMessageLength(unsigned char *buffer) {
 size_t ft_serializerBufferLength(unsigned char *buffer) {
     return 4 + ft_utilReadUInt(buffer);
 }
-
