@@ -4,10 +4,10 @@
 
 void testWriteReadShort() {
     unsigned char shortBuffer[2];
-    unsigned short value = 65535;
+    uint16_t value = 65535;
 
-    ft_utilWriteUShort(value, shortBuffer);
-    unsigned short readValue = ft_utilReadUShort(shortBuffer);
+    ft_utilWriteUint16(value, shortBuffer);
+    uint16_t readValue = ft_utilReadUint16(shortBuffer);
 
     assert(value == readValue);
 }

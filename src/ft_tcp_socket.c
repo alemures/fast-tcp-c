@@ -4,10 +4,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-// In header file: <sys/types.h>
+// In header file: <sys/types.h> <stdint.h>
 #include "ft_tcp_socket.h"
 
-struct ft_tcpSocket *ft_tcpSocketCreate(char *host, unsigned short port) {
+struct ft_tcpSocket *ft_tcpSocketCreate(char *host, uint16_t port) {
     struct ft_tcpSocket *socket = (struct ft_tcpSocket *) malloc(sizeof(struct ft_tcpSocket));
     if (socket == NULL) return NULL;
 

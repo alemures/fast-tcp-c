@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <inttypes.h> // Used for PRIu64 macro
 #include "../src/ft_serializer.h"
 #include "../src/ft_util.h"
 
@@ -10,7 +11,7 @@ int main(int argc, char *argv[]) {
     ft_utilWriteDouble(21.1, decimal);
 
     unsigned char integer[6];
-    ft_utilWriteUInt48(125, integer);
+    ft_utilWriteUint48(125, integer);
 
     char text[] = "Hello, World!";
 
@@ -38,7 +39,7 @@ int main(int argc, char *argv[]) {
         printf("data: \"%s\" -> ", data);
         free(data);
     } else if (ft_serializerDeserializeDt(buffer) == FT_DT_INTEGER) {
-        printf("data: %lld -> ", ft_serializerDeserializeDataInteger(buffer));
+        printf("data: %" PRIu64 " -> ", ft_serializerDeserializeDataInteger(buffer));
     } else if (ft_serializerDeserializeDt(buffer) == FT_DT_DECIMAL) {
         printf("data: %f -> ", ft_serializerDeserializeDataDecimal(buffer));
     } else if (ft_serializerDeserializeDt(buffer) == FT_DT_BOOLEAN) {

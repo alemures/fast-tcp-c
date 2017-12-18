@@ -1,5 +1,5 @@
 #include <stdlib.h>
-// In header file: <stdbool.h> <pthread.h>
+// In header file: <stdbool.h> <pthread.h> <stdint.h>
 #include "ft_socket.h"
 #include "ft_tcp_socket.h"
 #include "ft_reader.h"
@@ -13,9 +13,9 @@ const char FT_EVENT_CLOSE = 4;
 const char FT_EVENT_ERROR = 5;
 const char FT_EVENT_RECONNECTING = 6;
 
-const unsigned int FT_MAX_MESSAGE_ID = 4294967295;
+const uint32_t FT_MAX_MESSAGE_ID = 4294967295;
 
-struct ft_socket *ft_socketCreate(char *host, unsigned short port) {
+struct ft_socket *ft_socketCreate(char *host, uint16_t port) {
     struct ft_socket *socket = (struct ft_socket *) malloc(sizeof(struct ft_socket));
     if (socket == NULL) return NULL;
     socket->socket = ft_tcpSocketCreate(host, port);
@@ -50,7 +50,7 @@ void ft_socketDestroy(struct ft_socket *socket) {
     free(socket);
 }
 
-unsigned int ft_socketNextMessageId(struct ft_socket *socket) {
+uint32_t ft_socketNextMessageId(struct ft_socket *socket) {
     if (++socket->messageId >= FT_MAX_MESSAGE_ID) {
         socket->messageId = 1;
     }

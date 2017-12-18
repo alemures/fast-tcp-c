@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 extern const char FT_VERSION;
 
@@ -26,19 +27,19 @@ extern const char FT_MT_JOIN_ROOM;
 extern const char FT_MT_LEAVE_ROOM;
 extern const char FT_MT_LEAVE_ALL_ROOMS;
 
-unsigned char *ft_serializerSerialize(char *event, unsigned short eventLength, unsigned char *data, unsigned int dataLength, char mt, char dt, unsigned int messageId);
-unsigned short ft_serializerDeserializeEventLength(unsigned char *buffer);
+unsigned char *ft_serializerSerialize(char *event, uint16_t eventLength, unsigned char *data, uint32_t dataLength, char mt, char dt, uint32_t messageId);
+uint16_t ft_serializerDeserializeEventLength(unsigned char *buffer);
 char *ft_serializerDeserializeEvent(unsigned char *buffer);
-unsigned int ft_serializerDeserializeDataLength(unsigned char *buffer);
+uint32_t ft_serializerDeserializeDataLength(unsigned char *buffer);
 unsigned char *ft_serializerDeserializeDataBinary(unsigned char *buffer);
 char *ft_serializerDeserializeDataString(unsigned char *buffer);
-long long ft_serializerDeserializeDataInteger(unsigned char *buffer);
+uint64_t ft_serializerDeserializeDataInteger(unsigned char *buffer);
 double ft_serializerDeserializeDataDecimal(unsigned char *buffer);
 bool ft_serializerDeserializeDataBoolean(unsigned char *buffer);
 char ft_serializerDeserializeMt(unsigned char *buffer);
 char ft_serializerDeserializeDt(unsigned char *buffer);
-unsigned int ft_serializerDeserializeMessageId(unsigned char *buffer);
-unsigned int ft_serializerDeserializeMessageLength(unsigned char *buffer);
+uint32_t ft_serializerDeserializeMessageId(unsigned char *buffer);
+uint32_t ft_serializerDeserializeMessageLength(unsigned char *buffer);
 
 size_t ft_serializerBufferLength(unsigned char *buffer);
 

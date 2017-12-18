@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-// In header file: <stddef.h> <stdbool.h>
+// In header file: <stddef.h> <stdbool.h> <stdint.h>
 #include "ft_reader.h"
 #include "ft_util.h"
 
@@ -78,7 +78,7 @@ void ft_readerCreateBuffer(struct ft_reader *reader) {
     reader->bufferLength = 4 + reader->messageLength;
     reader->buffer = (unsigned char *) malloc(reader->bufferLength);
     if (reader->buffer == NULL) return;
-    ft_utilWriteUInt(reader->messageLength, reader->buffer);
+    ft_utilWriteUint32(reader->messageLength, reader->buffer);
     reader->offset += 4;
 }
 

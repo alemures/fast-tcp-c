@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <sys/types.h>
 
 struct ft_reader {
@@ -10,7 +11,7 @@ struct ft_reader {
     size_t bufferLength;
     size_t offset;
     size_t bytesRead;
-    unsigned int messageLength;
+    uint32_t messageLength;
     size_t offsetChunk;
 };
 

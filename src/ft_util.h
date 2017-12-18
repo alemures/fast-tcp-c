@@ -1,6 +1,8 @@
 #ifndef FT_UTILS_H
 #define FT_UTILS_H
 
+#include <stdint.h>
+
 extern const char HEX_VALUES[];
 
 void ft_utilLogDebug(char *format, ...);
@@ -9,20 +11,20 @@ void ft_utilLogWarning(char *format, ...);
 void ft_utilLogError(char *format, ...);
 void ft_utilLog(char *label, char *message);
 
-void ft_utilWriteUShort(unsigned short value, unsigned char *array);
-void ft_utilWriteUInt(unsigned int value, unsigned char *array);
-void ft_utilWriteUInt48(unsigned long long value, unsigned char *array);
-void ft_utilWriteULong(unsigned long long value, unsigned char *array);
+void ft_utilWriteUint16(uint16_t value, unsigned char *array);
+void ft_utilWriteUint32(uint32_t value, unsigned char *array);
+void ft_utilWriteUint48(uint64_t value, unsigned char *array);
+void ft_utilWriteUint64(uint64_t value, unsigned char *array);
 void ft_utilWriteDouble(double value, unsigned char *array);
 
-unsigned short ft_utilReadUShort(unsigned char *array);
-unsigned int ft_utilReadUInt(unsigned char *array);
-unsigned long long ft_utilReadUInt48(unsigned char *array);
-unsigned long long ft_utilReadULong(unsigned char *array);
+uint16_t ft_utilReadUint16(unsigned char *array);
+uint32_t ft_utilReadUint32(unsigned char *array);
+uint64_t ft_utilReadUint48(unsigned char *array);
+uint64_t ft_utilReadUint64(unsigned char *array);
 double ft_utilReadDouble(unsigned char *array);
 
-unsigned long long ft_utilDoubleToULong(double value);
-double ft_utilULongToDouble(unsigned long long value);
+uint64_t ft_utilDoubleToUint64(double value);
+double ft_utilUint64ToDouble(uint64_t value);
 
 void ft_utilPrintBytes(unsigned char *array, size_t arrayLength);
 
