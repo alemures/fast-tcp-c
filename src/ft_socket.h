@@ -14,6 +14,8 @@ extern const char FT_EVENT_ERROR;
 extern const char FT_EVENT_RECONNECTING;
 
 extern const uint32_t FT_MAX_MESSAGE_ID;
+extern const size_t FT_RECEIVER_CHUNK_SIZE;
+extern const size_t FT_RECEIVER_BUFFER_NUM;
 
 struct ft_socket {
     struct ft_tcpSocket *socket;

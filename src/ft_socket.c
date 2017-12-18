@@ -14,6 +14,8 @@ const char FT_EVENT_ERROR = 5;
 const char FT_EVENT_RECONNECTING = 6;
 
 const uint32_t FT_MAX_MESSAGE_ID = 4294967295;
+const size_t FT_RECEIVER_CHUNK_SIZE = 1024;
+const size_t FT_RECEIVER_BUFFER_NUM = 256;
 
 struct ft_socket *ft_socketCreate(char *host, uint16_t port) {
     struct ft_socket *socket = (struct ft_socket *) malloc(sizeof(struct ft_socket));
@@ -40,6 +42,7 @@ void ft_socketConnect(struct ft_socket *socket) {
 }
 
 void ft_socketClose(struct ft_socket *socket) {
+    ft_tcpSocketShutdown(socket->socket);
     pthread_join(*socket->receiverThread, NULL);
 }
 
@@ -75,8 +78,8 @@ void *ft_socketReceiverThreadHandler(void *args) {
 }
 
 void ft_socketReceiver(struct ft_socket *socket) {
-    unsigned char chunk[1024];
-    unsigned char *buffers[256];
+    unsigned char chunk[FT_RECEIVER_CHUNK_SIZE];
+    unsigned char *buffers[FT_RECEIVER_BUFFER_NUM];
     struct ft_reader *reader = ft_readerCreate();
     if (reader == NULL) {
         ft_utilLogError("Could not create ft_reader in thread");
@@ -84,19 +87,19 @@ void ft_socketReceiver(struct ft_socket *socket) {
     }
 
     while(true) {
-        ssize_t bytesRead = ft_tcpSocketReceive(socket->socket, &chunk, 1024);
+        ssize_t bytesRead = ft_tcpSocketReceive(socket->socket, &chunk, FT_RECEIVER_CHUNK_SIZE);
         if (bytesRead == -1) {
             ft_utilLogError("Could not receive data in thread");
-            return;
+            break;
         } else if (bytesRead == 0) {
             ft_utilLogWarning("No messages available or socket disconnected in thread");
-            return;
+            break;
         }
 
         ssize_t buffersRead = ft_readerRead(reader, chunk, bytesRead, buffers);
         if (buffersRead == -1) {
             ft_utilLogError("Chunk of bytes couldn't be processed");
-            return;
+            break;
         } else if (buffersRead > 0) {
             for (size_t i = 0; i < buffersRead; i++) {
                 ft_socketProcess(socket, buffers[i]);

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stddef.h>
+#include <unistd.h>
 #include "../src/ft_socket.h"
 #include "../src/ft_util.h"
 
@@ -11,6 +12,9 @@ int main(int argc, char *argv[]) {
     }
 
     ft_socketConnect(socket);
+
+    sleep(1);
+
     ft_socketClose(socket);
     ft_socketDestroy(socket);
 }

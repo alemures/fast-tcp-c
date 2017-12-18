@@ -45,6 +45,15 @@ ssize_t ft_tcpSocketSend(struct ft_tcpSocket *socket, const void *buffer, size_t
     return send(socket->fd, buffer, nBytes, 0);
 }
 
+int ft_tcpSocketShutdown(struct ft_tcpSocket *socket) {
+    int shutdownResult = shutdown(socket->fd, SHUT_RDWR);
+    if (shutdownResult == -1) {
+        return -1;
+    }
+
+    return 0;
+}
+
 int ft_tcpSocketClose(struct ft_tcpSocket *socket) {
     int closeResult = close(socket->fd);
     if (closeResult == -1) {
