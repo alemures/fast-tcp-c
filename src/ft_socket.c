@@ -75,9 +75,7 @@ void *ft_socketReceiverThreadHandler(void *args) {
 }
 
 void ft_socketReceiver(struct ft_socket *socket) {
-    ssize_t bytesRead;
     unsigned char chunk[1024];
-    int buffersRead = 0;
     unsigned char *buffers[256];
     struct ft_reader *reader = ft_readerCreate();
     if (reader == NULL) {
@@ -86,7 +84,7 @@ void ft_socketReceiver(struct ft_socket *socket) {
     }
 
     while(true) {
-        bytesRead = ft_tcpSocketReceive(socket->socket, &chunk, 1024);
+        ssize_t bytesRead = ft_tcpSocketReceive(socket->socket, &chunk, 1024);
         if (bytesRead == -1) {
             ft_utilLogError("Could not receive data in thread");
             return;
@@ -95,9 +93,12 @@ void ft_socketReceiver(struct ft_socket *socket) {
             return;
         }
 
-        buffersRead = ft_readerRead(reader, chunk, bytesRead, buffers);
-        if (buffersRead > 0) {
-            for (int i = 0; i < buffersRead; i++) {
+        ssize_t buffersRead = ft_readerRead(reader, chunk, bytesRead, buffers);
+        if (buffersRead == -1) {
+            ft_utilLogError("Chunk of bytes couldn't be processed");
+            return;
+        } else if (buffersRead > 0) {
+            for (size_t i = 0; i < buffersRead; i++) {
                 ft_socketProcess(socket, buffers[i]);
                 free(buffers[i]);
             }

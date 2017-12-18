@@ -16,8 +16,8 @@ struct ft_reader *ft_readerCreate() {
     return reader;
 }
 
-int ft_readerRead(struct ft_reader *reader, unsigned char *chunk, size_t effectiveChunkLength, unsigned char **buffers) {
-    int buffersRead = 0;
+ssize_t ft_readerRead(struct ft_reader *reader, unsigned char *chunk, size_t effectiveChunkLength, unsigned char **buffers) {
+    ssize_t buffersRead = 0;
     reader->offsetChunk = 0;
 
     while(reader->offsetChunk < effectiveChunkLength) {

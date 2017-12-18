@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include <sys/types.h>
 
 struct ft_reader {
     unsigned char *buffer;
@@ -15,7 +16,7 @@ struct ft_reader {
 
 struct ft_reader *ft_readerCreate();
 // Returns -1 if chunk couldn't be processed
-int ft_readerRead(struct ft_reader *reader, unsigned char *chunk, size_t effectiveChunkLength, unsigned char **buffers);
+ssize_t ft_readerRead(struct ft_reader *reader, unsigned char *chunk, size_t effectiveChunkLength, unsigned char **buffers);
 bool ft_readerReadMessageLength(struct ft_reader *reader, unsigned char *chunk, size_t effectiveChunkLength);
 bool ft_readerReadMessageContent(struct ft_reader *reader, unsigned char *chunk, size_t effectiveChunkLength);
 void ft_readerCreateBuffer(struct ft_reader *reader);

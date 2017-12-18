@@ -19,11 +19,11 @@ int main(int argc, char *argv[]) {
         0x00, 0x54, 0x68, 0x65, 0x20, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x08, 0x00, 0x00,
         0x00, 0x9a, 0x99, 0x99, 0x99, 0x99, 0x19, 0x35, 0x40
     };
-    int chunkLength = 35 * 3;
+    size_t chunkLength = 35 * 3;
 
     unsigned char *buffers[32];
-    int buffersRead = ft_readerRead(reader, chunk, chunkLength, buffers);
-    for (int i = 0; i < buffersRead; i++) {
+    ssize_t buffersRead = ft_readerRead(reader, chunk, chunkLength, buffers);
+    for (size_t i = 0; i < buffersRead; i++) {
         ft_utilPrintBytes(buffers[i], 35);
         free(buffers[i]);
     }
