@@ -38,7 +38,13 @@ struct ft_socket *ft_socketCreate(char *host, uint16_t port) {
 }
 
 void ft_socketConnect(struct ft_socket *socket) {
-    int res = pthread_create(socket->receiverThread, NULL, &ft_socketReceiverThreadHandler, socket);
+    int res = ft_tcpSocketConnect(socket->socket);
+    if (res == -1) {
+        ft_utilLogError("Could not connect");
+        return;
+    }
+
+    res = pthread_create(socket->receiverThread, NULL, &ft_socketReceiverThreadHandler, socket);
     if (res != 0) {
         ft_utilLogError("Error creating thread");
     }
@@ -54,6 +60,12 @@ void ft_socketClose(struct ft_socket *socket) {
     res = pthread_join(*socket->receiverThread, NULL);
     if (res != 0) {
         ft_utilLogError("Error joining thread");
+        return;
+    }
+
+    res = ft_tcpSocketClose(socket->socket);
+    if (res == -1) {
+        ft_utilLogError("Error closing socket");
     }
 }
 
@@ -74,17 +86,10 @@ uint32_t ft_socketNextMessageId(struct ft_socket *socket) {
 void *ft_socketReceiverThreadHandler(void *args) {
     struct ft_socket *socket = (struct ft_socket *) args;
 
-    int res = ft_tcpSocketConnect(socket->socket);
-    if (res == -1) {
-        ft_utilLogError("Could not connect in thread");
-        return NULL;
-    }
-
     socket->connected = true;
     ft_socketReceiver(socket);
     socket->connected = false;
 
-    ft_tcpSocketClose(socket->socket);
     return NULL;
 }
 
@@ -109,7 +114,7 @@ void ft_socketReceiver(struct ft_socket *socket) {
 
         ssize_t buffersRead = ft_readerRead(reader, chunk, bytesRead, buffers);
         if (buffersRead == -1) {
-            ft_utilLogError("Chunk of bytes couldn't be processed");
+            ft_utilLogError("Chunk of bytes couldn't be processed in thread");
             break;
         } else if (buffersRead > 0) {
             for (size_t i = 0; i < buffersRead; i++) {
