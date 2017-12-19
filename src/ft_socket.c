@@ -38,12 +38,23 @@ struct ft_socket *ft_socketCreate(char *host, uint16_t port) {
 }
 
 void ft_socketConnect(struct ft_socket *socket) {
-    pthread_create(socket->receiverThread, NULL, &ft_socketReceiverThreadHandler, socket);
+    int res = pthread_create(socket->receiverThread, NULL, &ft_socketReceiverThreadHandler, socket);
+    if (res != 0) {
+        ft_utilLogError("Error creating thread");
+    }
 }
 
 void ft_socketClose(struct ft_socket *socket) {
-    ft_tcpSocketShutdown(socket->socket);
-    pthread_join(*socket->receiverThread, NULL);
+    int res = ft_tcpSocketShutdown(socket->socket);
+    if (res == -1) {
+        ft_utilLogError("Error shutting down socket");
+        return;
+    }
+
+    res = pthread_join(*socket->receiverThread, NULL);
+    if (res != 0) {
+        ft_utilLogError("Error joining thread");
+    }
 }
 
 void ft_socketDestroy(struct ft_socket *socket) {
