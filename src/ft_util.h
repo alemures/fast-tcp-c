@@ -28,4 +28,7 @@ double ft_utilUint64ToDouble(uint64_t value);
 
 void ft_utilPrintBytes(unsigned char *array, size_t arrayLength);
 
+// MurmurHash2 by Austin Appleby https://github.com/aappleby/smhasher
+uint32_t ft_utilHash(const void * key, int len, uint32_t seed);
+
 #endif // FT_UTILS_H
